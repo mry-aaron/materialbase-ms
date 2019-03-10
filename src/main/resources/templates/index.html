@@ -7,7 +7,8 @@
     <!-- 引入CSS样式表 -->
     <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
-
+    <!-- banner CSS -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/banner.css">
 
 </head>
 <body>
@@ -32,66 +33,88 @@
         </div>
     </nav>
 </div>
-<!-- 主体信息 -->
-<div class="sidebar">
-    <!-- 左侧导航栏 -->
-    <nav class="sidebar-nav">
-        <ul class="nav">
-            <li class="nav-item">
-                <a href="index.html" class="nav-link active"> Home </a>
-            </li>
-            <li class="nav-item nav-dropdown">
-                <a href="#" class="nav-link nav-dropdown-toggle"> 素材库 </a>
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 搜索 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 导入 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 录入 </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item nav-dropdown">
-                <a href="#" class="nav-link nav-dropdown-toggle"> 关键词库 </a>
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 搜索 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 导入 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 录入 </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link"> 账号管理 </a>
-            </li>
-            <li class="nav-item nav-dropdown">
-                <a href="#" class="nav-link nav-dropdown-toggle"> 帮助 </a>
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 关键词使用手册 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 素材使用手册 </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> 关于 </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <!-- 主体内容 -->
-    <div>
 
+<!-- 主体信息 -->
+<div class="main-container">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active"> Home </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 素材库 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 搜索 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 导入 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 录入 </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 关键词库 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 搜索 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 导入 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 录入 </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"> 账号管理 </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 帮助 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 关键词使用手册 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 素材使用手册 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 关于 </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- 主体内容 -->
+    <div class="content">
+        <div class="container-fluid">
+            <!-- 图片轮播 -->
+            <div class="banner">
+                <div class="banner_t rel">
+                    <div class="banner_t_left abs"><a href="#"><img src="http://192.168.0.125/images/banner_l.png" alt=""/></a></div>
+                    <div id="boxgallery" class="boxgallery" data-effect="effect-1">
+                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 1"/></div>
+                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 2"/></div>
+                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 3"/></div>
+                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 4"/></div>
+                    </div>
+                    <div class="banner_t_right abs"><a href="#"><img src="http://192.168.0.125/images/banner_r.png"  alt=""/></a></div>
+                </div>
+            </div>
+            <!-- 素材展示 -->
+            <div class="sucai">
+
+            </div>
+        </div>
     </div>
 </div>
+
 <!-- 底部信息 -->
 <div class="footer"></div>
 </body>
@@ -99,6 +122,15 @@
 <!-- 引入JS库 -->
 <script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
+<!-- sidebar JS -->
 <script type="text/javascript" src="http://192.168.0.125/js/carbon.js"></script>
+<!-- banner JS -->
+<script type="text/javascript" src="http://192.168.0.125/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/banner.js"></script>
+<script type="text/javascript" >
+    new BoxesFx( document.getElementById( 'boxgallery' ) );
+</script>
+
+
 
 </html>
