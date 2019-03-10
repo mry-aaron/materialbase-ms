@@ -5,10 +5,13 @@
     <title>Home</title>
 
     <!-- 引入CSS样式表 -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/reset.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
     <!-- banner CSS -->
     <link rel="stylesheet" href="http://192.168.0.125/css/banner.css">
+    <!-- card CSS -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/ml_card.css">
 
 </head>
 <body>
@@ -97,19 +100,46 @@
             <!-- 图片轮播 -->
             <div class="banner">
                 <div class="banner_t rel">
-                    <div class="banner_t_left abs"><a href="#"><img src="http://192.168.0.125/images/banner_l.png" alt=""/></a></div>
+                    <div class="banner_t_left abs"><a href="#"><img src="http://192.168.0.125/images/icon/banner_l.png" alt=""/></a></div>
                     <div id="boxgallery" class="boxgallery" data-effect="effect-1">
-                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 1"/></div>
-                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 2"/></div>
-                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 3"/></div>
-                        <div class="panel"><img src="http://192.168.0.125/images/2.jpg" alt="Image 4"/></div>
+                        <div class="panel"><img src="http://192.168.0.125/images/materialbase/2.jpg" alt="Image 1"/></div>
+                        <div class="panel"><img src="http://192.168.0.125/images/materialbase/2.jpg" alt="Image 2"/></div>
+                        <div class="panel"><img src="http://192.168.0.125/images/materialbase/2.jpg" alt="Image 3"/></div>
+                        <div class="panel"><img src="http://192.168.0.125/images/materialbase/2.jpg" alt="Image 4"/></div>
                     </div>
-                    <div class="banner_t_right abs"><a href="#"><img src="http://192.168.0.125/images/banner_r.png"  alt=""/></a></div>
+                    <div class="banner_t_right abs"><a href="#"><img src="http://192.168.0.125/images/icon/banner_r.png"  alt=""/></a></div>
                 </div>
             </div>
             <!-- 素材展示 -->
-            <div class="sucai">
-
+            <div class="material">
+                <!-- 标题 -->
+                <div class="ml_title"><span class="sc_text">素材</span>展示</div>
+                <!-- 素材模块 -->
+                <div class="ml_list">
+                    <div class="ml_row">
+                        <div class="ml_card">
+                            <div class="card_img">
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/top_1.jpg" alt=""></a>
+                                <div class="card_tag">
+                                    <a href="#"><i class="icon-follow"></i></a>
+                                    <a href="#"><i class="icon-download"></i></a>
+                                </div>
+                            </div>
+                            <div class="card_title">
+                                <p>春光无限好</p>
+                                <p>
+                                    <i class="follow_icon"></i>
+                                    <span class="follow_count">213413</span>
+                                    <i class="download_icon"></i>
+                                    <span class="download_count">23523524</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="ml_card"></div>
+                        <div class="ml_card"></div>
+                        <div class="ml_card"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
