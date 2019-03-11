@@ -40,6 +40,10 @@
             height: 95%;
             margin: auto;
         }
+        .login_hearder span:hover {
+            color: #10c55b;
+            border-bottom: solid .5rem #10c55b;
+        }
         .tabstyle {
             color: #10c55b;
             border-bottom: solid .5rem #10c55b;
@@ -50,7 +54,7 @@
             height: 100%;
             position: relative;
         }
-        .login_phone {
+        .login_code {
             display: none;
         }
         .login_code,.login_phone {
@@ -131,6 +135,61 @@
         .other_login a:nth-child(3) {
             background-position-x: -3.7rem;
         }
+        /* 手机验证码登录样式 */
+        .login_phone div{
+            width: 26rem;
+            height: 3.5rem;
+            margin: 1rem auto;
+            overflow: hidden;
+        }
+        .login_phone div:nth-child(1){
+            margin-top: 3rem;
+        }
+
+        .login_phone input {
+            width: 14.5rem;
+            height: 3.4rem;
+            border: 1px solid #DBDBDB;
+            border-radius: .5rem;
+        }
+        .login_phone input[class='cell_phone_number_icon'] {
+            padding-left: 3rem;
+        }
+        .login_phone select {
+            height: 3.4rem;
+            width: 8rem;
+            border: 1px solid #ccc;
+            border-radius: .5rem;
+            margin-right: -.3rem;
+            padding-left: .5rem;
+            color: #666;
+            font-size: 1.2rem;
+            position: relative;
+        }
+        i[class='cell_phone_number_icon'] {
+            position: absolute;
+            top: 3.8rem;
+            left: 11.5rem;
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url(http://192.168.0.125/images/icon/common_login.png) -11.5rem -14rem no-repeat;
+        }
+        .vli_code {
+            float: left;
+            padding-left: 1rem;
+        }
+        .send_code {
+            width: 9rem;
+            border: .1rem solid #10c55b;
+            height: 3.3rem;
+            float: right;
+            border-radius: .5rem;
+            line-height: 3.3rem;
+            background-color: #edfff4;
+            color: #10c55b;
+            font-size: 1.2rem;
+        }
 
     </style>
 
@@ -145,6 +204,7 @@
     </div>
     <!-- 内容 -->
     <div class="login_content">
+        <!-- 登录页面元素 -->
         <div class="sign_content">
             <!-- 账号登录 -->
             <div class="login_code">
@@ -156,9 +216,9 @@
                     <i class="pwd_icon"></i>
                     <input type="password" name="password" placeholder="请输入密码" />
                 </div>
-                <div><a class="login_btn" href="#">登录</a></div>
+                <div><a class="login_btn" >登录</a></div>
                 <div>
-                    <a class="tab_phone" href="#">手机验证码登录</a>
+                    <a class="tab_phone" id="phone-login">手机验证码登录</a>
                     <a class="edit_pwd" href="#">忘记密码？</a>
                 </div>
                 <div class="other_login">
@@ -170,24 +230,27 @@
             <!-- 手机号登录 -->
             <div class="login_phone">
                 <div>
-                    <div><select name="" id="s"></select></div>
-                    <div><input type="text"></div>
+                    <select name="">
+                        <option value="0">中国 +86</option>
+                        <option value="0">哈萨克斯坦 +7</option>
+                    </select>
+                    <i class="cell_phone_number_icon"></i>
+                    <input class="cell_phone_number_icon" type="text" placeholder="请输入常用手机号">
                 </div>
                 <div>
-                    <div><input type="text"></div>
-                    <div>
-                        <button>发送验证码</button>
-                    </div>
+                    <input class="vli_code" type="text" placeholder="请输入验证码">
+                    <a class="send_code" href="#">发送验证码</a>
                 </div>
-                <div><button>登录</button></div>
-                <div><a href="#">账号登录</a></div>
-                <div>
-                    <div><img src="" alt=""></div>
-                    <div><img src="" alt=""></div>
-                    <div><img src="" alt=""></div>
+                <div><a class="login_btn" href="#">登录</a></div>
+                <div><a class="tab_phone" id="code-login">账号登录</a></div>
+                <div class="other_login">
+                    <a href="#"></a>
+                    <a href="#"></a>
+                    <a href="#"></a>
                 </div>
             </div>
         </div>
+        <!-- 注册页面元素 -->
         <div class="signup_content">
             <div>
                 <select name="" id="ss"></select>
@@ -218,13 +281,28 @@
         $(".sign_hearder span").addClass("tabstyle");
         $(".signup_content").css("display","none");
         /* Tab切换 */
-        $(".login_hearder div").on("mouseover", function () {
-            //var index = $(this).index();
+        $(".login_hearder div").on("click", function () {
+            /* 登录注册切换样式 */
             $(this).find("span").addClass("tabstyle");
             $(this).siblings().find("span").removeClass("tabstyle");
-            //$(".login_content div").eq(index).css("display","block").siblings().css("display","none");
-        });
+            /* 登录注册内容切换 */
+            var index = $(this).index();
+            if(index == 0){
+                $(".sign_content").css("display","block").siblings().css("display","none");
+            } else if (index == 1){
+                $(".signup_content").css("display","block").siblings().css("display","none");
+            }
 
+        });
+        /* 手机与账号登录切换 */
+        $("#code-login").on("click", function () {
+            $(".login_code").css("display","block");
+            $(".login_phone").css("display","none");
+        });
+        $("#phone-login").on("click", function () {
+            $(".login_code").css("display","none");
+            $(".login_phone").css("display","block");
+        });
 
 
     });
