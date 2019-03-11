@@ -11,7 +11,9 @@
     <!-- banner CSS -->
     <link rel="stylesheet" href="http://192.168.0.125/css/banner.css">
     <!-- card CSS -->
+    <link rel="stylesheet" href="http://192.168.0.125/layui/css/layui.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/ml_card.css">
+
 
 </head>
 <body>
@@ -19,7 +21,9 @@
 <div class="header">
     <!-- 顶部导航栏 -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div style="background-color: white; border-radius:50%; margin-right: 10px;"><img src="http://192.168.0.125/images/logo.png" alt="" width="35px" height="35px"></div>
+        <div style="background-color: white; border-radius:50%; margin-right: 10px;">
+            <img src="http://192.168.0.125/images/icon/logo.png" alt="" width="35px" height="35px">
+        </div>
         <a class="navbar-brand" href="#">HetaolinMedia</a>
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav" >
@@ -129,9 +133,9 @@
                                 <p>春光无限好</p>
                                 <p>
                                     <i class="follow_icon"></i>
-                                    <span class="follow_count">213413</span>
+                                    <span class="follow_count">0</span>
                                     <i class="download_icon"></i>
-                                    <span class="download_count">23523524</span>
+                                    <span class="download_count">0</span>
                                 </p>
                             </div>
                         </div>
@@ -139,6 +143,10 @@
                         <div class="ml_card"></div>
                         <div class="ml_card"></div>
                     </div>
+                </div>
+                <!-- 分页DIV -->
+                <div class="ml_pages">
+                    <div id="pages"></div>
                 </div>
             </div>
         </div>
@@ -160,7 +168,21 @@
 <script type="text/javascript" >
     new BoxesFx( document.getElementById( 'boxgallery' ) );
 </script>
-
-
+<!-- pages JS -->
+<script type="text/javascript" src="http://192.168.0.125/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['laypage', 'layer'], function() {
+        var laypage = layui.laypage, layer = layui.layer;
+        laypage.render({
+            elem: 'pages'
+            , count: 100
+            , layout: [/*'count', */'prev', 'page', 'next', 'limit', 'skip']
+            , limits: [8,12,16,20]
+            , jump: function (obj) {
+                console.log(obj)
+            }
+        });
+    });
+</script>
 
 </html>
