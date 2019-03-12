@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+
+    <!-- 引入CSS样式表 -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/reset.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
+
+    <style type="text/css">
+        /* 素材展示样式 */
+        .ml_details {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            border-top: 1rem solid #000000;
+        }
+        .details_box {
+            width: 70%;
+            height: 38rem;
+            float: left;
+        }
+        .details_ul {
+            width: 30%;
+            height: 38rem;
+            position: relative;
+            float: right;
+            background: rgba(4,4,4,.5);
+        }
+        .box_img {
+            width: 100%;
+            height: 100%;
+        }
+        .box_list {
+            list-style: none;
+            width: 16rem;
+            height: 25.5rem;
+            margin: auto;
+            overflow: hidden;
+        }
+        .list_ul {
+            width: 16rem;
+            height: 100rem;
+        }
+        .box_list img {
+            width: 100%;
+            height: 100%;
+        }
+        .box_list li {
+            width: 16rem;
+            height: 7.9rem;
+            border: .1rem solid #a3a3a3;
+            float: left;
+            margin-bottom: .8rem;
+            overflow: hidden;
+        }
+        .box_up, .box_down {
+            width: 17rem;
+            height: 1.6rem;
+            margin: .5rem auto;
+        }
+        .box_up {
+            margin-top: 4rem;
+        }
+        .box_up span, .box_down span {
+            float: left;
+            width: 7rem;
+            height: 1rem;
+            border: .1rem solid #fff;
+        }
+        .box_up .box_up_l {
+            border-bottom: 0;
+            border-right: 0;
+        }
+        .box_down .box_down_l {
+            border-top: 0;
+            border-right: 0;
+        }
+        .box_up .box_up_r {
+            border-bottom: 0;
+            border-left: 0;
+        }
+        .box_down .box_down_r {
+            border-top: 0;
+            border-left: 0;
+        }
+        .box_up .box_up_c {
+            float: left;
+            margin: -.6rem .5rem 0 .5rem;
+        }
+        .box_down .box_down_c {
+            float: left;
+            margin: .6rem .5rem 0 .5rem;
+        }
+
+        /* 素材详述样式 */
+        .ml_details_text {
+
+        }
+    </style>
+
+
+</head>
+<body>
+<!-- 头部信息 -->
+<div class="header">
+    <!-- 顶部导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div style="background-color: white; border-radius:50%; margin-right: 10px;">
+            <img src="http://192.168.0.125/images/icon/logo.png" alt="" width="35px" height="35px">
+        </div>
+        <a class="navbar-brand" href="#">HetaolinMedia</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" id="sign">Sign</a>
+                </li>
+                <li class="nav-item">
+                    <img src="http://192.168.0.125/images/materialbase/2.jpg" alt="" width="35px" height="35px"
+                         style="border-radius:50%">
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<!-- 主体信息 -->
+<div class="main-container">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active"> Home </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 素材库 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 搜索 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 导入 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 录入 </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 关键词库 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 搜索 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 导入 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 录入 </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"> 账号管理 </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 帮助 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 关键词使用手册 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 素材使用手册 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 关于 </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- 主体内容 -->
+    <div class="content">
+        <div class="container-fluid">
+            <!-- 素材展示 -->
+            <div class="ml_details">
+                <div class="details_box">
+                    <a href="#"><img class="box_img" src="http://192.168.0.125/images/materialbase/big01.jpg" alt=""></a>
+                </div>
+                <div class="details_ul">
+                    <p class="box_up">
+                        <span class="box_up_l"></span>
+                        <a><img class="box_up_c" src="http://192.168.0.125/images/materialbase/j_up.png" alt=""></a>
+                        <span class="box_up_r"></span>
+                    </p>
+                    <div class="box_list">
+                        <ul class="list_ul">
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm01.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm01.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm01.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm02.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm02.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm02.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm03.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm03.jpg" alt=""></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="http://192.168.0.125/images/materialbase/sm03.jpg" alt=""></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="box_down">
+                        <span class="box_down_l"></span>
+                        <a><img class="box_down_c" src="http://192.168.0.125/images/materialbase/j_down.png" alt=""></a>
+                        <span class="box_down_r"></span>
+                    </p>
+                </div>
+            </div>
+            <!-- 素材描述 -->
+            <div class="ml_details_text">
+                <!-- 标题 -->
+                <div class="ml_details_title">
+                    <span>素材</span> 详述
+                </div>
+                <!-- 描述信息 -->
+                <div class="ml_details_content">
+                    <div>媒体/广告位：<span>网易新闻-信息流广告</span></div>
+                    <div>素材尺寸：<span>1080 * 540</span></div>
+                    <div>素材大小：<span>5 MB</span></div>
+                    <div>素材格式：<span>JPG</span></div>
+                    <div>上传时间：<span>2018-10-10</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- 引入JS库 -->
+<script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
+<!-- sidebar JS -->
+<script type="text/javascript" src="http://192.168.0.125/js/carbon.js"></script>
+<!-- Sign/up JS-->
+<script type="text/javascript">
+    $('#sign').on('click', function(){
+        layer.open({
+            type: 2,
+            title: false,
+            /*maxmin: true,
+            shadeClose: true, //点击遮罩关闭层*/
+            area : ['30rem' , '32.5rem'],
+            content: 'iframe/sign.html'
+        });
+        $("#layui-layer-iframe").css("overflow","hidden");
+    });
+</script>
+<!-- Details JS -->
+<script type="text/javascript">
+
+    $(function () {
+        var $_this = $(".box_list");
+        var x = 0;
+        var anm = true;
+        var imgW = $_this.find('.list_ul li').height();
+        $_this.scrollTop();
+        //点击上
+        $('.box_up_c').click(function () {
+            if (anm) {
+                anm = false;
+                x--;
+                if (x < 0) {
+                    $_this.scrollTop((imgW + 12) * ++x);
+                }
+                move();
+            }
+        });
+        //点击下
+        $('.box_down_c').click(function () {
+            if (anm) {
+                anm = false;
+                x++;
+                if (x >= $_this.find('.list_ul li').length - 2) {
+                    x--;
+                }
+                move();
+            }
+        });
+
+        function move() {
+            $_this.stop().animate({scrollTop: (imgW + 12) * x}, function () {
+                anm = true;
+            });
+        }
+    });
+    $(function () {
+        $(".list_ul li").on("mouseover", function () {
+            var sv = $(this).find("a img").attr("src");
+            $(".box_img").attr("src", sv);
+        });
+    });
+
+</script>
+
+</html>
