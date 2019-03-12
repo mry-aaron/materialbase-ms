@@ -29,7 +29,7 @@
             float: right;
             background: rgba(4,4,4,.5);
         }
-        .box_img {
+        .box_img,.box_list img {
             width: 100%;
             height: 100%;
         }
@@ -43,10 +43,6 @@
         .list_ul {
             width: 16rem;
             height: 100rem;
-        }
-        .box_list img {
-            width: 100%;
-            height: 100%;
         }
         .box_list li {
             width: 16rem;
@@ -260,17 +256,21 @@
 <!-- sidebar JS -->
 <script type="text/javascript" src="http://192.168.0.125/js/carbon.js"></script>
 <!-- Sign/up JS-->
+<script type="text/javascript" src="http://192.168.0.125/layui/layui.js"></script>
 <script type="text/javascript">
-    $('#sign').on('click', function(){
-        layer.open({
-            type: 2,
-            title: false,
-            /*maxmin: true,
-            shadeClose: true, //点击遮罩关闭层*/
-            area : ['30rem' , '32.5rem'],
-            content: 'iframe/sign.html'
+    layui.use(['laypage', 'layer'], function() {
+        var laypage = layui.laypage, layer = layui.layer;
+        $('#sign').on('click', function () {
+            layer.open({
+                type: 2,
+                title: false,
+                /*maxmin: true,
+                shadeClose: true, //点击遮罩关闭层*/
+                area: ['30rem', '32.5rem'],
+                content: 'iframe/sign.html'
+            });
+            $("#layui-layer-iframe").css("overflow", "hidden");
         });
-        $("#layui-layer-iframe").css("overflow","hidden");
     });
 </script>
 <!-- Details JS -->
