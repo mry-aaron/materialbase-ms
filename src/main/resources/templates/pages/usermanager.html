@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UserManager</title>
+
+    <!-- 引入CSS样式表 -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/reset.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
+    <link rel="stylesheet" href="http://192.168.0.125/layui/css/layui.css">
+
+    <style type="text/css">
+        .layui-form-label {
+            width: 9rem;
+        }
+        /* 上传头像样式 */
+
+        #setHead {
+            float: left;
+            margin: 4rem 2rem 0 0;
+        }
+        .layui-upload-list {
+            float: left;
+        }
+        .layui-upload-img {
+            width: 8rem;
+            height: 8rem;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 头部信息 -->
+<div class="header">
+    <!-- 顶部导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div style="background-color: white; border-radius:50%; margin-right: 10px;">
+            <img src="http://192.168.0.125/images/icon/logo.png" alt="" width="35px" height="35px">
+        </div>
+        <a class="navbar-brand" href="#">HetaolinMedia</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav" >
+                <li class="nav-item active">
+                    <a class="nav-link" id="sign">Sign</a>
+                </li>
+                <li class="nav-item">
+                    <img src="http://192.168.0.125/images/materialbase/2.jpg" alt="" width="35px" height="35px" style="border-radius:50%">
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<!-- 主体信息 -->
+<div class="main-container">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active"> Home </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 素材库 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 搜索 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 导入 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 录入 </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 关键词库 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 搜索 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 导入 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 录入 </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"> 账号管理 </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle"> 帮助 </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 关键词使用手册 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 素材使用手册 </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> 关于 </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- 主体内容 -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">个人中心</li>
+                    <li>用户管理</li>
+                </ul>
+                <div class="layui-tab-content" style="height: 100px;">
+                    <div class="layui-tab-item layui-show">
+                        <form class="layui-form" action="" lay-filter="example">
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn" id="setHead">设置头像</button>
+                                <div class="layui-upload-list">
+                                    <img class="layui-upload-img" id="upload_img">
+                                    <p id="msg"></p>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">用户名</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">密码</label>
+                                <div class="layui-input-block">
+                                    <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">确认密码</label>
+                                <div class="layui-input-block">
+                                    <input type="password" name="password" placeholder="请确认密码" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">注册部门</label>
+                                <div class="layui-input-block">
+                                    <select name="interest">
+                                        <option value="">请选择部门</option>
+                                        <option value="0">管理部</option>
+                                        <option value="1">策划部</option>
+                                        <option value="1">制作部</option>
+                                        <option value="2">市场部</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">手机号码</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="telephone" lay-verify="title" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn">立即提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入JS库 -->
+<script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/layui/layui.js"></script>
+<!-- 登录注册 -->
+<script type="text/javascript">
+    layui.use(['laypage', 'layer'], function() {
+        var laypage = layui.laypage, layer = layui.layer;
+        $('#sign').on('click', function () {
+            layer.open({
+                type: 2,
+                title: false,
+                /*maxmin: true,
+                shadeClose: true, //点击遮罩关闭层*/
+                area: ['30rem', '32.5rem'],
+                content: 'iframe/sign.html'
+            });
+            $("#layui-layer-iframe").css("overflow", "hidden");
+        });
+    });
+</script>
+<!-- 选项卡切换 -->
+<script type="text/javascript">
+    layui.use('element');
+</script>
+<!-- 上传头像 -->
+<script type="text/javascript">
+    layui.use('upload', function() {
+        var $ = layui.jquery, upload = layui.upload;
+        var uploadInst = upload.render({
+            elem: '#setHead'
+            /*, auto: false // 设置是否自动上传*/
+            ,url: '/ss'
+            , before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#upload_img').attr('src', result);
+                });
+            }
+        });
+    });
+</script>
+<!-- 用户管理 -->
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+            ,url: ' /kkkk'
+            ,cols: [[
+                {field:'id', width:80, title: 'ID', sort: true}
+                ,{field:'username', width:80, title: '用户名'}
+                /*,{field:'sex', width:80, title: '性别', sort: true}
+                ,{field:'city', width:80, title: '城市'}
+                ,{field:'sign', title: '签名', minWidth: 150}
+                ,{field:'experience', width:80, title: '积分', sort: true}
+                ,{field:'score', width:80, title: '评分', sort: true}
+                ,{field:'classify', width:80, title: '职业'}
+                ,{field:'wealth', width:135, title: '财富', sort: true}*/
+            ]]
+            ,page: true
+        });
+    });
+</script>
+</html>

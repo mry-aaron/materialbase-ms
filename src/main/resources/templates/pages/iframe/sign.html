@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="http://192.168.0.125/css/reset.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/sign.css">
+
 </head>
 <body>
 
@@ -65,24 +66,42 @@
         </div>
         <!-- 注册页面元素 -->
         <div class="signup_content">
+            <!-- 其他注册 -->
             <div class="other_sign">
                 <a class="qq" href="#"><i></i>QQ注册</a>
                 <a class="wx" href="#"><i></i>微信注册</a>
                 <a class="wb" href="#"><i></i>微博注册</a>
             </div>
-            <div>
-                <select name="">
-                    <option value="0">中国 +86</option>
-                    <option value="0">哈萨克斯坦 +7</option>
-                </select>
-                <i class="cell_phone_number_icon"></i>
-                <input class="cell_phone_number_icon" type="text" placeholder="请输入常用手机号">
+            <!-- 手机验证码注册 -->
+            <div class="phone_reg">
+                <div class="cell_phone_number">
+                    <select name="">
+                        <option value="0">中国 +86</option>
+                        <option value="0">哈萨克斯坦 +7</option>
+                    </select>
+                    <i class="cell_phone_number_icon"></i>
+                    <input class="cell_phone_number_icon" type="text" placeholder="请输入常用手机号">
+                </div>
+                <div>
+                    <input class="vli_code" type="text" placeholder="请输入验证码">
+                    <a class="send_code" href="#">发送验证码</a>
+                </div>
+                <div><a class="regi_btn" href="#">注册</a></div>
+                <div class="tab_reg"><a class="tab_code_reg">账号注册</a></div>
             </div>
-            <div>
-                <input class="vli_code" type="text" placeholder="请输入验证码">
-                <a class="send_code" href="#">发送验证码</a>
+            <!-- 账号注册 -->
+            <div class="code_reg">
+                <div class="parent_icon">
+                    <i class="user_icon"></i>
+                    <input type="text" name="username" placeholder="请输入账号/手机号码" />
+                </div>
+                <div class="parent_icon">
+                    <i class="pwd_icon"></i>
+                    <input type="password" name="password" placeholder="请输入密码" />
+                </div>
+                <div><a class="regi_btn" href="#">注册</a></div>
+                <div class="tab_reg"><a class="tab_phone_reg">手机验证码注册</a></div>
             </div>
-            <div><a class="regi_btn" href="#">注册</a></div>
             <div class="agree"><i></i><span>勾选代表你同意《版权声明》《隐私声明》</span></div>
         </div>
     </div>
@@ -91,5 +110,4 @@
 </body>
 <script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="http://192.168.0.125/js/sign.js"></script>
-
 </html>
