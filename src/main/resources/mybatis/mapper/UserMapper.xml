@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.qicp.aaron.mapper.UserMapper">
+
+    <!-- 查询用户是否存在 -->
+    <select id="findByUser" parameterType="UserBean" resultType="java.lang.Integer">
+        select
+        <if test="name != null">
+            count(name)
+        </if>
+        <if test="telephone != null">
+            count(telephone)
+        </if>
+        from user_info
+        where
+        <if test="name != null">
+            name = #{name}
+        </if>
+        <if test="telephone != null">
+            telephone = #{telephone}
+        </if>
+    </select>
+
+    <!-- 注册 -->
+    <insert id="regUser" parameterType="UserBean">
+        insert into `user_info`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="qq != null">
+                qq,
+            </if>
+            <if test="wechat != null">
+                wechat,
+            </if>
+            <if test="sina != null">
+                sina,
+            </if>
+            <if test="createTime != null">
+                createtime,
+            </if>
+
+        </trim>
+        <trim prefix=" values(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="telephone != null">
+                #{telephone},
+            </if>
+            <if test="qq != null">
+                #{qq},
+            </if>
+            <if test="wechat != null">
+                #{wechat},
+            </if>
+            <if test="sina != null">
+                #{sina},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

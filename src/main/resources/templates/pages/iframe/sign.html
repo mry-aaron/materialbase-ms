@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <title>Sign</title>
@@ -24,13 +24,13 @@
             <div class="login_code">
                 <div class="parent_icon">
                     <i class="user_icon"></i>
-                    <input type="text" name="username" placeholder="请输入账号/手机号码" />
+                    <input type="text" class="cl_username" placeholder="请输入账号/手机号码" />
                 </div>
                 <div class="parent_icon">
                     <i class="pwd_icon"></i>
-                    <input type="password" name="password" placeholder="请输入密码" />
+                    <input type="password" class="cl_password" placeholder="请输入密码" />
                 </div>
-                <div><a class="login_btn" >登录</a></div>
+                <div><a class="login_btn" id="code_login">登录</a></div>
                 <div>
                     <a class="tab_phone" id="phone-login">手机验证码登录</a>
                     <a class="edit_pwd" href="#">忘记密码？</a>
@@ -55,13 +55,18 @@
                     <input class="vli_code" type="text" placeholder="请输入验证码">
                     <a class="send_code" href="#">发送验证码</a>
                 </div>
-                <div><a class="login_btn" href="#">登录</a></div>
+                <div><a class="login_btn" id="phone_login">登录</a></div>
                 <div><a class="tab_phone" id="code-login">账号登录</a></div>
                 <div class="other_login">
                     <a href="#"></a>
                     <a href="#"></a>
                     <a href="#"></a>
                 </div>
+            </div>
+            <!-- 错误消息提示 -->
+            <div class="error_msg sign_err">
+                <i th:style="'display: block;'" th:if="not ${#strings.isEmpty(session.sign_msg)}" ></i>
+                <span th:text="${session.sign_msg}" th:if="not ${#strings.isEmpty(session.sign_msg)}" ></span>
             </div>
         </div>
         <!-- 注册页面元素 -->
@@ -80,29 +85,31 @@
                         <option value="0">哈萨克斯坦 +7</option>
                     </select>
                     <i class="cell_phone_number_icon"></i>
-                    <input class="cell_phone_number_icon" type="text" placeholder="请输入常用手机号">
+                    <input class="cell_phone_number_icon cpn_val" type="text" placeholder="请输入常用手机号">
                 </div>
                 <div>
-                    <input class="vli_code" type="text" placeholder="请输入验证码">
-                    <a class="send_code" href="#">发送验证码</a>
+                    <input class="vli_code vc_val" type="text" placeholder="请输入验证码">
+                    <a class="send_code" id="send_code">发送验证码</a>
                 </div>
-                <div><a class="regi_btn" href="#">注册</a></div>
+                <div><a class="regi_btn" id="cpn_reg">注册</a></div>
                 <div class="tab_reg"><a class="tab_code_reg">账号注册</a></div>
             </div>
             <!-- 账号注册 -->
             <div class="code_reg">
                 <div class="parent_icon">
                     <i class="user_icon"></i>
-                    <input type="text" name="username" placeholder="请输入账号/手机号码" />
+                    <input type="text" class="cr_username" placeholder="请输入账号/手机号码" />
                 </div>
                 <div class="parent_icon">
                     <i class="pwd_icon"></i>
-                    <input type="password" name="password" placeholder="请输入密码" />
+                    <input type="password" class="cr_password" placeholder="请输入密码" />
                 </div>
-                <div><a class="regi_btn" href="#">注册</a></div>
+                <div><a class="regi_btn" id="cr_reg">注册</a></div>
                 <div class="tab_reg"><a class="tab_phone_reg">手机验证码注册</a></div>
             </div>
             <div class="agree"><i></i><span>勾选代表你同意《版权声明》《隐私声明》</span></div>
+            <!-- 错误消息提示 -->
+            <div class="error_msg signup_err"><i></i><span></span></div>
         </div>
     </div>
 </div>
@@ -110,4 +117,127 @@
 </body>
 <script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="http://192.168.0.125/js/sign.js"></script>
+<script type="text/javascript">
+
+    /* 账号注册 */
+    $(function () {
+        var $username; //账号
+        var flag = false;
+        /* 用户输入用户名后进行用户名验证 */
+        $(".cr_username").on("blur", function () {
+            $username = $(".cr_username").val();
+            if($username != null && $username != ""){
+                $.ajax({
+                    type: "post",
+                    url: "/finduser",
+                    data: "name=" + $username,
+                    success: function (data) {
+                        if(data == "0") {
+                            $(".signup_err").css("display","block");
+                            $(".signup_err span").html("用户名已存在！");
+                        } else {
+                            $(".signup_err").css("display","none");
+                            flag = true;
+                        }
+                    }
+                });
+            }
+        });
+        /* 绑定注册按钮的单击事件 */
+        $("#cr_reg").on("click", function () {
+            // 获取账号/密码
+            var $password = $(".cr_password").val();
+            // 提交请求
+            if( $username != null && $password != null && flag){
+                $.ajax({
+                    type: "post",
+                    url: "/reg",
+                    data: "name=" + $username + "&password=" + $password,
+                    success: function () {
+                        alert("用户注册成功！");
+                        flag = false;
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    });
+
+    /* 手机号注册 */
+    $(function () {
+        var $telephone;
+        var $vlidatecode;
+        var click_disabled = true;
+        /* 用户输入手机号后进行手机号验证 */
+        $(".cpn_val").on("blur", function () {
+            $telephone = $(this).val();
+            if($telephone != null && $telephone != ""){
+                $.ajax({
+                    type: "post",
+                    url: "/finduser",
+                    data: "telephone=" + $telephone,
+                    success: function (data) {
+                        if(data == "0") {
+                            $(".signup_err").css("display","block");
+                            $(".signup_err span").html("手机号已注册！");
+                        } else {
+                            $(".signup_err").css("display","none");
+                            flag = true;
+                        }
+                    }
+                });
+            }
+        });
+        /* 发送手机验证码 */
+        $("#send_code").on("click", function () {
+            if($telephone != null && $telephone != "" && click_disabled){
+                $.ajax({
+                    type: "post",
+                    url: "/sendverificode",
+                    data: "telephone=" + $telephone,
+                    success: function (data) {
+                        if (data["reason"] == "操作成功") {
+                            click_disabled = false;
+                            var i = 60;
+                            var l = setInterval(function () {
+                                $("#send_code").html("重新发送 "+(--i)+"s");
+                                if (i == 0){
+                                    clearInterval(l);
+                                    click_disabled = true;
+                                    $("#send_code").html("重新发送");
+                                }
+                            }, 1000);
+                        }
+                    }
+                });
+            }
+        });
+        /* 给注册按钮绑定单击事件 */
+        $("#cpn_reg").on("click", function () {
+            // 获取验证码
+            $vlidatecode = $(".vc_val").val();
+            // 提交请求
+            if( $telephone != null && $vlidatecode != null && flag){
+                $.ajax({
+                    type: "post",
+                    url: "/verifi",
+                    data: "code=" + $vlidatecode,
+                    success: function (data) {
+                        if(data == "0") {
+                            $(".signup_err").css("display","block");
+                            $(".signup_err span").html("验证码有误！");
+                        } else if( data == "1") {
+                            $.post("/reg","telephone="+$telephone, function () {
+                                alert("用户注册成功！");
+                                flag = false;
+                                window.location.reload();
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+</script>
 </html>

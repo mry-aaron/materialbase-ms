@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -165,7 +165,7 @@
         </div>
     </div>
 </div>
-
+<div class="hidden_msg" style="display: none" th:text="${session.sign_msg}"></div>
 </body>
 
 <!-- 引入JS库 -->
@@ -197,20 +197,36 @@
 </script>
 <!-- 登录注册 -->
 <script type="text/javascript">
-    layui.use(['laypage', 'layer'], function() {
-        var laypage = layui.laypage, layer = layui.layer;
-        $('#sign').on('click', function () {
+     /* 定义弹框函数 */
+    function open() {
+        layui.use(['laypage', 'layer'], function() {
+            var laypage = layui.laypage, layer = layui.layer;
             layer.open({
                 type: 2,
                 title: false,
                 /*maxmin: true,
                 shadeClose: true, //点击遮罩关闭层*/
                 area: ['30rem', '32.5rem'],
-                content: 'pages/iframe/sign.html'
+                content: '/sign.html'
             });
             $("#layui-layer-iframe").css("overflow", "hidden");
+
         });
+    }
+
+    /* 绑定单击事件弹出登录框 */
+     $('#sign').on('click', function () {
+        open();
     });
+
+     /* 没登录状态访问其他页面时，弹出登录框 */
+    $(function () {
+        var $hidden_msg = $(".hidden_msg").html();
+        if($hidden_msg != null && $hidden_msg != ""){
+            open();
+        }
+    });
+
 </script>
 
 </html>
