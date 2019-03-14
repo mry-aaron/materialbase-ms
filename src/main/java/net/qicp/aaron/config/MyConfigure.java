@@ -35,7 +35,7 @@ public class MyConfigure implements WebMvcConfigurer {
         // 设置拦截排除
         interceptor.excludePathPatterns(Arrays.asList("/","/index.html","/sign.html"));
         interceptor.excludePathPatterns("/error");
-        interceptor.excludePathPatterns("/reg","/verifi","/finduser","/sendverificode");
+        interceptor.excludePathPatterns("/reg","/verifi","/finduser","/sendverificode","/login","/logintele");
         // 设置拦截(拦截全部)
         interceptor.addPathPatterns("/**");
 

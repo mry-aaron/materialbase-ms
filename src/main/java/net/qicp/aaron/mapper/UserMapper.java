@@ -33,4 +33,11 @@ public interface UserMapper {
      */
     Integer findByUser(UserBean userBean);
 
+    /**
+     * 根据用户名密码查询用户（登录）
+     * @param userBean
+     * @return
+     */
+    UserBean findByNameAndPassword(UserBean userBean);
+
 }

@@ -75,4 +75,10 @@
         </trim>
     </insert>
 
+    <!-- 登录 -->
+    <select id="findByNameAndPassword" resultType="UserBean" parameterType="UserBean">
+        select * from user_info
+        where name=#{name} and password=#{password}
+    </select>
+
 </mapper>

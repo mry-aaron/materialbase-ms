@@ -47,7 +47,7 @@ public class UserService {
     }
 
     /**
-     *
+     * 发送短信验证码
      * @param telephone
      * @return
      */
@@ -56,11 +56,13 @@ public class UserService {
         try {
             // 生成随机6位数字验证码
             int randNum = (int)(Math.random()*899999) + 100000;
+            log.debug(randNum+" *****验证码****");
             // 将验证码存入session用于验证
             request.getSession().setAttribute("code", randNum);
             // 发送短信验证码
             String tplValue = "#code#=" + randNum;
-            String result = SendVerificationCodeUtil.sendShortMessage(telephone, URLEncoder.encode(tplValue, "UTF-8"), "json");
+            /*String result = SendVerificationCodeUtil.sendShortMessage(telephone, URLEncoder.encode(tplValue, "UTF-8"), "json");*/
+            String result = "{\"error_code\":0,\"result\":\"...\",\"reason\":\"操作成功\"}";
             // 处理返回结果
             object = JSONObject.fromObject(result);
             if (object.getInt("error_code") == 0) {
@@ -72,6 +74,40 @@ public class UserService {
             e.printStackTrace();
         }
         return object;
+    }
+
+    /**
+     * 登录
+     * @param param
+     * @return
+     */
+    public UserBean login(String param) {
+        // 将参数解析成JSON对象,获取用户名/密码
+        JSONObject object = JSONObject.fromObject(param);
+        // 验证用户名是否存在（在拦截器中验证）
+        UserBean userBean = new UserBean();
+        userBean.setName(object.getString("name"));
+        userBean.setPassword(object.getString("password"));
+        return userMapper.findByNameAndPassword(userBean);
+    }
+
+    /**
+     * 手机号登录
+     * @param param
+     * @return
+     */
+    public UserBean loginTele(String param, HttpServletRequest request) {
+        UserBean userBean = new UserBean();
+        // 将参数解析成JSON对象,获取手机号/验证码
+        JSONObject object = JSONObject.fromObject(param);
+        String code = object.getString("code");
+        userBean.setTelephone(object.getString("telephone"));
+        // 能查询到手机号并且验证码正确即登录成功
+        if(code.equals(request.getSession().getAttribute("code").toString()) &&
+            userMapper.findByUser(userBean) > 0){
+            return userBean;
+        }
+        return null;
     }
 
 

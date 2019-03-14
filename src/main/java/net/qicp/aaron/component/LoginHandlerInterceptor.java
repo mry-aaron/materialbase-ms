@@ -1,5 +1,7 @@
 package net.qicp.aaron.component;
 
+import net.qicp.aaron.domain.UserBean;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -24,10 +26,11 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
         // 获取session用户名
         Object userName = request.getSession().getAttribute("userName");
-        log.debug(userName + "------LoginHandlerInterceptor中拦截到Session中用户名------");
+        Object telephone = request.getSession().getAttribute("telephone");
 
-        // 根据是否为空判断用户是否登录或登录成功
-        if (userName != null) {
+        log.debug(userName + " : " + telephone + "------LoginHandlerInterceptor中拦截到Session中用户名------");
+
+        if (userName != null || telephone != null) {
             return true;
         } else {
             // 设置消息
@@ -36,6 +39,5 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             response.sendRedirect("/");
             return false;
         }
-
     }
 }
