@@ -18,13 +18,13 @@ public interface UserMapper {
      * 注册用户
      * @param userBean
      */
-    void regUser(UserBean userBean);
+    Integer regUser(UserBean userBean);
 
     /**
      * 编辑用户
      * @param userBean
      */
-    void editUser(UserBean userBean);
+    Integer editUser(UserBean userBean);
 
     /**
      * 查询用户是否存在
@@ -39,5 +39,19 @@ public interface UserMapper {
      * @return
      */
     UserBean findByNameAndPassword(UserBean userBean);
+
+    /**
+     * 更新登录时间
+     * @param userBean
+     * @return
+     */
+    Integer updateLoginTime(UserBean userBean);
+
+    /**
+     * 查询用户信息
+     * @param userBean
+     * @return
+     */
+    UserBean findUserByNameOrTelephone(UserBean userBean);
 
 }

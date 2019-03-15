@@ -4,16 +4,20 @@ import net.qicp.aaron.domain.UserBean;
 import net.qicp.aaron.service.UserService;
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
+import org.apache.tomcat.jni.Multicast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @Author Aaron
@@ -30,7 +34,12 @@ public class UserController {
 
     @RequestMapping("/reg")
     public void regUser(UserBean userBean) {
-        userService.regUser(userBean);
+        Integer num = userService.regUser(userBean);
+        if(num > 0){
+            log.debug("用户注册成功！======UserController: reg =======");
+        } else {
+            log.debug("用户注册失败！======UserController: reg =======");
+        }
     }
 
     @RequestMapping("/finduser")
@@ -53,7 +62,7 @@ public class UserController {
     @RequestMapping("/login")
     public String login(@RequestParam("param") String param, HttpServletRequest request) throws Exception {
         // 访问登录方法
-        UserBean userBean = userService.login(param);
+        UserBean userBean = userService.login(param, request);
         JSONObject object = new JSONObject();
         if (userBean != null){
             object.put("user", userBean);
@@ -88,5 +97,45 @@ public class UserController {
         return object.toString();
     }
 
+    @RequestMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.getSession().invalidate();
+        response.sendRedirect("/");
+    }
+
+    @RequestMapping("/edituser")
+    public void editUser(@RequestParam("img") MultipartFile img, UserBean userBean,
+                         HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.debug(img.getOriginalFilename() + "========UserController: edituser============");
+        log.debug(JSONObject.fromObject(userBean).toString() + "========UserController: edituser============");
+        PrintWriter out = response.getWriter();
+        if(userService.editUser(img, userBean)){ // 成功
+            // 注销Session，重新登录
+            request.getSession().invalidate();
+            // 跳转页面
+            out.print("<script type='text/javascript'>");
+            //out.print("alert('用户保存成功！请重新登录！');");
+            out.print("location.href='/'");
+            out.print("</script>");
+        } else { // 失败
+            out.print("<script type='text/javascript'>");
+            out.print("alert('用户保存失败！请重试！');");
+            out.print("history.go(-1);");
+            out.print("</script>");
+        }
+    }
+
+    @RequestMapping("/toeditpage")
+    public String toEditPage(HttpServletRequest request){
+        UserBean user = null;
+        // 获取登录时保存的用户名或手机号
+        Object userName = request.getSession().getAttribute("userName");
+        Object telephone = request.getSession().getAttribute("telephone");
+        if(userName != null || telephone != null){
+            // 获取用户信息
+            user = userService.findUserByNameOrTelephone(userName, telephone);
+        }
+        return JSONObject.fromObject(user).toString();
+    }
 
 }

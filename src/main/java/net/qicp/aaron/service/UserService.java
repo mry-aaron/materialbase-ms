@@ -2,15 +2,18 @@ package net.qicp.aaron.service;
 
 import net.qicp.aaron.domain.UserBean;
 import net.qicp.aaron.mapper.UserMapper;
-import net.qicp.aaron.utils.SendVerificationCodeUtil;
+import net.qicp.aaron.utils.FileUploadUtil;
+import net.qicp.aaron.utils.MD5Util;
+import net.qicp.aaron.utils.UUIDUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -31,10 +34,19 @@ public class UserService {
      * 注册用户
      * @param userBean
      */
-    public boolean regUser(UserBean userBean) {
+    public Integer regUser(UserBean userBean) {
+        Integer num = 0;
         userBean.setCreateTime(new Timestamp(new Date().getTime()));
-        userMapper.regUser(userBean);
-        return false;
+        // 获取密码进行加密
+        String password = userBean.getPassword();
+        if(password != null) {
+            log.debug(password+" =======UserService: regUser==========");
+            String md5String = MD5Util.getMD5String(password);
+            log.debug(md5String+" =======UserService: regUser==========");
+            userBean.setPassword(md5String);
+        }
+        num = userMapper.regUser(userBean);
+        return num;
     }
 
     /**
@@ -81,14 +93,23 @@ public class UserService {
      * @param param
      * @return
      */
-    public UserBean login(String param) {
+    public UserBean login(String param, HttpServletRequest request) {
+        UserBean user = null;
         // 将参数解析成JSON对象,获取用户名/密码
         JSONObject object = JSONObject.fromObject(param);
         // 验证用户名是否存在（在拦截器中验证）
         UserBean userBean = new UserBean();
         userBean.setName(object.getString("name"));
-        userBean.setPassword(object.getString("password"));
-        return userMapper.findByNameAndPassword(userBean);
+        userBean.setPassword(MD5Util.getMD5String(object.getString("password")));
+        user = userMapper.findByNameAndPassword(userBean);
+        if(user != null){
+            // 更新登录时间
+            userBean.setLastLoginTime(new Timestamp(new Date().getTime()));
+            userMapper.updateLoginTime(userBean);
+            // 设置用户头像
+            request.getSession().setAttribute("headImg", "http://192.168.0.125/images/upload/heads/"+userMapper.findUserByNameOrTelephone(userBean).getHeadImg());
+        }
+        return user;
     }
 
     /**
@@ -105,10 +126,70 @@ public class UserService {
         // 能查询到手机号并且验证码正确即登录成功
         if(code.equals(request.getSession().getAttribute("code").toString()) &&
             userMapper.findByUser(userBean) > 0){
+            // 更新登录时间
+            userBean.setLastLoginTime(new Timestamp(new Date().getTime()));
+            userMapper.updateLoginTime(userBean);
+            // 设置用户头像
+            request.getSession().setAttribute("headImg", "http://192.168.0.125/images/upload/heads/"+userMapper.findUserByNameOrTelephone(userBean).getHeadImg());
             return userBean;
         }
         return null;
     }
 
+    /**
+     * 编辑用户
+     * @param file
+     * @param userBean
+     */
+    public boolean editUser(MultipartFile file, UserBean userBean) {
+        boolean result = false;
+        try {
+            String fileName = file.getOriginalFilename();
+            log.debug(fileName + "=======fileName=======");
+            if(fileName != null && fileName.length() > 0) {
+                //获取文件后缀
+                String suffix = fileName.substring(fileName.lastIndexOf("."));
+                //判断是否为一个图片
+                if(!suffix.matches("^\\.(jpg|png|gif)$")) {
+                    log.error("******************该文件不是一个图片!");
+                    return result;
+                }
+                // 上传图片
+                String imgName = UUIDUtil.generFileName() + suffix;
+                String imgURL = FileUploadUtil.upload(imgName, file.getInputStream());
+                log.debug(imgURL + " =============图片链接=================");
+                // 保存图片
+                userBean.setHeadImg(imgName);
+            }
+
+            //保存用户信息
+            Integer did = userBean.getDeptId();
+            if(did != null && did != 0){ // 管理部为管理员角色
+                if(did == 1) userBean.setRoleId(1);
+                else userBean.setRoleId(2);
+            }
+            // 获取密码进行加密
+            String password = userBean.getPassword();
+            if(password != null) userBean.setPassword(MD5Util.getMD5String(password));
+            if(userMapper.editUser(userBean) > 0) result = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 编辑用户前查询用户
+     * @param userName
+     * @param telephone
+     * @return
+     */
+    public UserBean findUserByNameOrTelephone(Object userName, Object telephone){
+        UserBean userBean = new UserBean();
+        if(userName != null) userBean.setName(userName.toString());
+        if(telephone != null) userBean.setTelephone(telephone.toString());
+        // 调用查询
+        return userMapper.findUserByNameOrTelephone(userBean);
+    }
 
 }

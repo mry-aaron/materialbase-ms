@@ -14,20 +14,20 @@ public class UserBean {
     private String name;                // 用户名
     private String password;            // 密码
     private String telephone;           // 手机号
-    private String qq;                 // QQ
+    private String qq;                  // QQ
     private String wechat;              // 微信
     private String sina;                // 新浪微博
     private Integer roleId;             // 角色编号
     private Integer deptId;             // 部门编号
     private Timestamp createTime;       // 创建时间
     private Timestamp lastLoginTime;    // 最近登录时间
-    private String head;                // 头像
+    private String headImg;             // 头像
 
     /**
      * 构造器
      */
     public UserBean() { }
-    public UserBean(Integer id, String name, String password, String telephone, String qq, String wechat, String sina, Integer roleId, Integer deptId, Timestamp createTime, Timestamp lastLoginTime, String head) {
+    public UserBean(Integer id, String name, String password, String telephone, String qq, String wechat, String sina, Integer roleId, Integer deptId, Timestamp createTime, Timestamp lastLoginTime, String headImg) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -39,7 +39,7 @@ public class UserBean {
         this.deptId = deptId;
         this.createTime = createTime;
         this.lastLoginTime = lastLoginTime;
-        this.head = head;
+        this.headImg = headImg;
     }
 
     /**
@@ -112,10 +112,10 @@ public class UserBean {
     public void setLastLoginTime(Timestamp lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
-    public String getHead() {
-        return head;
+    public String getHeadImg() {
+        return headImg;
     }
-    public void setHead(String head) {
-        this.head = head;
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 }

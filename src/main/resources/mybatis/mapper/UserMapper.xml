@@ -81,4 +81,54 @@
         where name=#{name} and password=#{password}
     </select>
 
+    <!-- 更新登录时间 -->
+    <update id="updateLoginTime" parameterType="UserBean">
+        update user_info set lastlogintime=#{lastLoginTime}
+        <where>
+            <trim suffixOverrides="and">
+                <if test="name != null and name != ''">
+                    name=#{name} and
+                </if>
+                <if test="telephone != null and telephone != ''">
+                    telephone=#{telephone}
+                </if>
+            </trim>
+        </where>
+    </update>
+
+    <!-- 编辑用户 -->
+    <update id="editUser" parameterType="UserBean">
+        update user_info
+        <set>
+            name=#{name},
+            <if test="password != null and password != ''">
+                password=#{password},
+            </if>
+            telephone=#{telephone},
+            role_id=#{roleId},
+            dept_id=#{deptId},
+            <if test="headImg != null and headImg != ''">
+                head_img=#{headImg}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <!-- 查询用户信息通过用户名或手机号 -->
+    <select id="findUserByNameOrTelephone" parameterType="UserBean" resultType="UserBean">
+        select * from user_info
+        <where>
+            <trim suffixOverrides="and">
+                <if test="name != null and name != ''">
+                    name=#{name} and
+                </if>
+                <if test="telephone != null and telephone != ''">
+                    telephone=#{telephone}
+                </if>
+            </trim>
+        </where>
+    </select>
+
 </mapper>
