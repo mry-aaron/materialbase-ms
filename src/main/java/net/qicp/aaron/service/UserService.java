@@ -141,7 +141,7 @@ public class UserService {
      * @param file
      * @param userBean
      */
-    public boolean editUser(MultipartFile file, UserBean userBean) {
+    public boolean editUser(MultipartFile file, UserBean userBean, HttpServletRequest request) {
         boolean result = false;
         try {
             String fileName = file.getOriginalFilename();
@@ -170,7 +170,7 @@ public class UserService {
             }
             // 获取密码进行加密
             String password = userBean.getPassword();
-            if(password != null) userBean.setPassword(MD5Util.getMD5String(password));
+            if(password != null && password.length() > 0) userBean.setPassword(MD5Util.getMD5String(password));
             if(userMapper.editUser(userBean) > 0) result = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,7 +179,7 @@ public class UserService {
     }
 
     /**
-     * 编辑用户前查询用户
+     * 编辑用户前展示用户信息
      * @param userName
      * @param telephone
      * @return

@@ -35,6 +35,9 @@
             float: left;
             margin: 1rem 4rem 1rem 9.2rem;
         }
+        .layui-form-label i{
+            color: #ff0000;
+        }
 
     </style>
 
@@ -58,7 +61,7 @@
                 </ul>
                 <div class="layui-tab-content" style="height: 100px;">
                     <div class="layui-tab-item layui-show">
-                        <form th:action="@{/edituser}" method="post" enctype="multipart/form-data" lay-filter="example" class="layui-form">
+                        <form id="form_submit" th:action="@{/edituser}" method="post" enctype="multipart/form-data" lay-filter="example" class="layui-form">
                             <div class="layui-form-item set_head">
                                 <img class="upload_img" src="" alt="头像"/>
                                 <div class="layui-input-block">
@@ -68,19 +71,19 @@
                                 <input type="hidden" name="id"/>
                             </div>
                             <div class="layui-form-item">
-                                <label class="layui-form-label">用户名</label>
+                                <label class="layui-form-label"><i>*</i> 用户名</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                                    <input type="text" name="name" required lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
                                 </div>
                             </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">密码</label>
+                            <div class="layui-form-item pwd_display">
+                                <label class="layui-form-label"><i>*</i> 密码</label>
                                 <div class="layui-input-block">
                                     <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">确认密码</label>
+                            <div class="layui-form-item pwd_display">
+                                <label class="layui-form-label"><i>*</i> 确认密码</label>
                                 <div class="layui-input-block">
                                     <input type="password" name="pwd" placeholder="请确认密码" autocomplete="off" class="layui-input">
                                 </div>
@@ -101,7 +104,8 @@
                             </div>
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
-                                    <button class="layui-btn">立即提交</button>
+                                    <button class="layui-btn" id="btn_submit">立即提交</button>
+                                    <span class="submit_msg"></span>
                                 </div>
                             </div>
                         </form>
@@ -163,7 +167,32 @@
 </script>
 <!-- 加载用户信息 -->
 <script type="text/javascript">
-    $(function () {
+    var user_name;
+    // 获取用户信息
+    function getUser(){
+        $.post("/toeditpage", "", function (data) {
+            var user = JSON.parse(data);
+            if(user != null && user != ""){
+                $(".upload_img").attr("src","http://192.168.0.125/images/upload/heads/"+user["headImg"]);
+                $("input[name='id']").val(user["id"]);
+                $("input[name='name']").val(user["name"]); user_name = user["name"];
+                $("input[name='telephone']").val(user["telephone"]);
+                var $opts = $(".dept_choose option");
+                $.each($opts, function (i,v) {
+                    if(v["index"] == user["deptId"]){
+                        $(".dept_choose option").eq(i).attr("selected","selected");
+                    }
+                });
+                if(user["password"] != null && user["password"] != ""){
+                    $(".pwd_display").css("display","none");
+                } else {
+                    $(".pwd_display").css("display","block");
+                }
+            }
+        });
+    }
+    // 加载部门信息
+    function loadDept(){
         $.ajax({
             type: 'POST',
             url: '/findall',
@@ -173,25 +202,27 @@
                 $.each(dept, function (i, v) {
                     $(".dept_choose").append("<option value='"+v["id"]+"'>"+v["deptName"]+"</option>")
                 });
+                getUser();
             }
         });
-        $.post("/toeditpage", "", function (data) {
-            var user = JSON.parse(data);
-            if(user != null && user != ""){
-                $(".upload_img").attr("src","http://192.168.0.125/images/upload/heads/"+user["headImg"]);
-                $("input[name='id']").val(user["id"]);
-                $("input[name='name']").val(user["name"]);
-                $("input[name='telephone']").val(user["telephone"]);
-                var $opts = $(".dept_choose option");
-                $.each($opts, function (i,v) {
-                    if(v["index"] == user["deptId"]){
-                        $(".dept_choose option").eq(i).attr("selected","selected");
+    }
+    $(function () {
+        loadDept();
+        $("input[name='name']").on("blur", function () {
+            var $name = $("input[name='name']").val();
+            if($name != null && $name != user_name){
+                $.post("/finduser", "name="+$name, function (data) {
+                    if(data == "0") {
+                        $("#btn_submit").attr('disabled',true);
+                        $(".submit_msg").html('<i style="color: #FF0000; margin-left: 2rem;"> x 用户名已存在！</i>');
+                    } else {
+                        $("#btn_submit").attr('disabled',false);
+                        $(".submit_msg").html('<i style="color: #008000; margin-left: 2rem;"> √ 用户名可用！</i>');
                     }
                 });
-                if(user["password"] != null && user["password"] != ""){
-                    $("input[name='password']").attr("disabled","disabled");
-                    $("input[name='pwd']").attr("disabled","disabled");
-                }
+            } else {
+                $("#btn_submit").attr('disabled',false);
+                $(".submit_msg").html('<i style="color: #008000; margin-left: 2rem;"> √ 用户名可用！</i>');
             }
         });
     });

@@ -101,7 +101,7 @@
         update user_info
         <set>
             name=#{name},
-            <if test="password != null and password != ''">
+            <if test='password != null and password != ""'>
                 password=#{password},
             </if>
             telephone=#{telephone},

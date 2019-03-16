@@ -41,6 +41,11 @@ public class UserBean {
         this.lastLoginTime = lastLoginTime;
         this.headImg = headImg;
     }
+    public UserBean(String name, String password, String telephone) {
+        this.name = name;
+        this.password = password;
+        this.telephone = telephone;
+    }
 
     /**
      * 访问器

@@ -106,21 +106,21 @@ public class UserController {
     @RequestMapping("/edituser")
     public void editUser(@RequestParam("img") MultipartFile img, UserBean userBean,
                          HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 声明输出对象 out
         log.debug(img.getOriginalFilename() + "========UserController: edituser============");
         log.debug(JSONObject.fromObject(userBean).toString() + "========UserController: edituser============");
         PrintWriter out = response.getWriter();
-        if(userService.editUser(img, userBean)){ // 成功
+        // 判断是否保存成功
+        if(userService.editUser(img, userBean, request)){ // 成功
             // 注销Session，重新登录
             request.getSession().invalidate();
             // 跳转页面
             out.print("<script type='text/javascript'>");
-            //out.print("alert('用户保存成功！请重新登录！');");
             out.print("location.href='/'");
             out.print("</script>");
         } else { // 失败
             out.print("<script type='text/javascript'>");
-            out.print("alert('用户保存失败！请重试！');");
-            out.print("history.go(-1);");
+            out.print("location.href='/umanager.html'");
             out.print("</script>");
         }
     }
