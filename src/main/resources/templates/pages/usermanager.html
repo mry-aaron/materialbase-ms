@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
     <link rel="stylesheet" href="http://192.168.0.125/layui/css/layui.css">
-
+    <!-- 头像样式 -->
     <style type="text/css">
         .layui-form-label {
             width: 9rem;
@@ -38,7 +38,6 @@
         .layui-form-label i{
             color: #ff0000;
         }
-
     </style>
 
 </head>
@@ -67,8 +66,8 @@
                                 <div class="layui-input-block">
                                     <label class="layui-form-label img_btn" for="upload_file">设置头像</label>
                                     <input id="upload_file" type="file" name="img" hidden>
+                                    <input type="hidden" name="id" lay-verify="title" autocomplete="off" class="layui-input"/>
                                 </div>
-                                <input type="hidden" name="id"/>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label"><i>*</i> 用户名</label>
@@ -91,9 +90,7 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">注册部门</label>
                                 <div class="layui-input-block">
-                                    <select class="dept_choose" name="deptId">
-                                        <option value="0">请选择部门</option>
-                                    </select>
+                                    <select class="dept_choose" name="deptId"></select>
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -121,110 +118,8 @@
 <script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://192.168.0.125/js/carbon.js"></script>
 <script type="text/javascript" src="http://192.168.0.125/layui/layui.js"></script>
-<!-- 用户注册/登录 -->
-<script type="text/javascript">
-    $(function () {
-        $('#sign').on('click', function () {
-            layui.use(['laypage', 'layer'], function() {
-                var laypage = layui.laypage, layer = layui.layer;
-                layer.open({
-                    type: 2,
-                    title: false,
-                    /*maxmin: true,
-                    shadeClose: true, //点击遮罩关闭层*/
-                    area: ['30rem', '32.5rem'],
-                    content: ['/sign.html', 'no']
-                });
-                $("#layui-layer-iframe").css("overflow", "hidden");
-            });
-        });
-    });
-</script>
-<!-- 个人中心 -->
-<script type="text/javascript">
-    // 使用表格（下拉列表属于表格）
-    layui.use('table');
-</script>
-<!-- 选项卡切换 -->
-<script type="text/javascript">
-    layui.use('element');
-</script>
-<!-- 上传头像 -->
-<script type="text/javascript">
-    $(function () {
-        $("#upload_file").on("change", function () {
-            var $file = $(this);
-            var objUrl = $file[0].files[0];
-            // 获得一个http格式的url路径
-            var windowURL = window.URL || window.webkitURL;
-            // 创建一个指向该图片的URL
-            var dataURL = windowURL.createObjectURL(objUrl);
-            // 显示图片
-            $(".upload_img").attr("src", dataURL);
-        });
-    });
-
-</script>
-<!-- 加载用户信息 -->
-<script type="text/javascript">
-    var user_name;
-    // 获取用户信息
-    function getUser(){
-        $.post("/toeditpage", "", function (data) {
-            var user = JSON.parse(data);
-            if(user != null && user != ""){
-                $(".upload_img").attr("src","http://192.168.0.125/images/upload/heads/"+user["headImg"]);
-                $("input[name='id']").val(user["id"]);
-                $("input[name='name']").val(user["name"]); user_name = user["name"];
-                $("input[name='telephone']").val(user["telephone"]);
-                var $opts = $(".dept_choose option");
-                $.each($opts, function (i,v) {
-                    if(v["index"] == user["deptId"]){
-                        $(".dept_choose option").eq(i).attr("selected","selected");
-                    }
-                });
-                if(user["password"] != null && user["password"] != ""){
-                    $(".pwd_display").css("display","none");
-                } else {
-                    $(".pwd_display").css("display","block");
-                }
-            }
-        });
-    }
-    // 加载部门信息
-    function loadDept(){
-        $.ajax({
-            type: 'POST',
-            url: '/findall',
-            success: function (data) {
-                var dept = JSON.parse(data);
-                $(".dept_choose").html('<option value="0">请选择部门</option>');
-                $.each(dept, function (i, v) {
-                    $(".dept_choose").append("<option value='"+v["id"]+"'>"+v["deptName"]+"</option>")
-                });
-                getUser();
-            }
-        });
-    }
-    $(function () {
-        loadDept();
-        $("input[name='name']").on("blur", function () {
-            var $name = $("input[name='name']").val();
-            if($name != null && $name != user_name){
-                $.post("/finduser", "name="+$name, function (data) {
-                    if(data == "0") {
-                        $("#btn_submit").attr('disabled',true);
-                        $(".submit_msg").html('<i style="color: #FF0000; margin-left: 2rem;"> x 用户名已存在！</i>');
-                    } else {
-                        $("#btn_submit").attr('disabled',false);
-                        $(".submit_msg").html('<i style="color: #008000; margin-left: 2rem;"> √ 用户名可用！</i>');
-                    }
-                });
-            } else {
-                $("#btn_submit").attr('disabled',false);
-                $(".submit_msg").html('<i style="color: #008000; margin-left: 2rem;"> √ 用户名可用！</i>');
-            }
-        });
-    });
-</script>
+<!-- JS监听屏幕改变 -->
+<script type="text/javascript" src="http://192.168.0.125/js/screen_set.js"></script>
+<!-- 初始化加载 JS -->
+<script type="text/javascript" src="http://192.168.0.125/js/umanagerinit.js"></script>
 </html>
