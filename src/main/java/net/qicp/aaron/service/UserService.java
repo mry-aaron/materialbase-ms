@@ -9,6 +9,7 @@ import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,8 @@ import java.util.Date;
 @Service
 public class UserService {
     private Logger log = LoggerFactory.getLogger(UserService.class);
+    @Value("${file.heads}")
+    private String filePath;
 
     @Autowired
     private UserMapper userMapper;
@@ -156,7 +159,7 @@ public class UserService {
                 }
                 // 上传图片
                 String imgName = UUIDUtil.generFileName() + suffix;
-                String imgURL = FileUploadUtil.upload(imgName, file.getInputStream());
+                String imgURL = FileUploadUtil.upload(filePath, imgName, file.getInputStream());
                 log.debug(imgURL + " =============图片链接=================");
                 // 保存图片
                 userBean.setHeadImg(imgName);

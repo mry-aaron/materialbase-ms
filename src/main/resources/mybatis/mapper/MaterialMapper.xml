@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.qicp.aaron.mapper.MaterialMapper">
+
+    <resultMap id="materialResult" type="MaterialBean">
+        <id column="id" property="id" jdbcType="INTEGER" javaType="java.lang.Integer"></id>
+        <result column="product_name" property="productName"></result>
+        <result column="company_id" property="companyId"></result>
+        <result column="smtype_id" property="smTypeId"></result>
+        <result column="size" property="size"></result>
+        <result column="smstyle_id" property="smStyleId"></result>
+        <result column="product_theme" property="productTheme"></result>
+        <result column="download" property="download"></result>
+        <result column="consume" property="consume"></result>
+        <result column="starlevel" property="starLevel"></result>
+        <result column="media_id" property="mediaId"></result>
+        <result column="platform" property="platform"></result>
+        <result column="like" property="like"></result>
+        <result column="browse" property="browse"></result>
+        <result column="entrytime" property="entryTime"></result>
+        <result column="materialpath" property="materialPath"></result>
+        <result column="isdelete" property="isDelete"></result>
+    </resultMap>
+
+    <!-- 获取素材风格 -->
+    <select id="getStyle" resultType="SMStyleBean">
+        select id,s_name from mbms_smstyle
+    </select>
+    <!-- 获取素材类型 -->
+    <select id="getType" resultType="SMTypeBean">
+        select id,t_name from mbms_smtype
+    </select>
+    <!-- 获取媒体 -->
+    <select id="getMedia" resultType="MediaBean">
+        select id,m_name from mbms_media
+    </select>
+
+
+
+
+</mapper>

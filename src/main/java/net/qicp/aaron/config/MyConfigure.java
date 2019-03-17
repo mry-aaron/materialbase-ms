@@ -29,7 +29,9 @@ public class MyConfigure implements WebMvcConfigurer {
         // 访问详情页
         registry.addViewController("/details.html").setViewName("pages/details.html");
         // 录入素材
-        registry.addViewController("/input.html").setViewName("pages/materialbaseinput.html");
+        registry.addViewController("/record.html").setViewName("pages/materialbase/record.html");
+        // 搜索素材
+        registry.addViewController("/search.html").setViewName("pages/materialbase/search.html");
     }
 
     /**

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>MaterialBaseSearch</title>
+
+    <!-- 引入CSS样式表 -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/reset.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/media.css">
+    <link rel="stylesheet" href="http://192.168.0.125/layui/css/layui.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/materialbase.css">
+
+</head>
+<body>
+<!-- 头部信息 -->
+<div class="header">
+    <!-- 顶部导航栏 -->
+    <div th:replace="~{pages/iframe/navbar.html::topNav}"></div>
+</div>
+
+<!-- 主体信息 -->
+<div class="main-container">
+    <!-- 左侧导航栏 -->
+    <div th:replace="~{pages/iframe/navbar::leftNav(activeUri='search.html')}"></div>
+    <!-- 主体内容 -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div><span>搜索</span>素材</div>
+            </div>
+            <div class="formItem">
+                <form action="" lay-filter="example" class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">公司名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="companyName" autocomplete="off" placeholder="请输入或选择公司名称" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">产品名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="productName" autocomplete="off" placeholder="请输入产品名称" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">产品题材</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="productTheme" autocomplete="off" placeholder="请输入产品题材" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">素材风格</label>
+                            <div class="layui-input-block">
+                                <select name="smStyleId"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">素材尺寸</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="size" autocomplete="off" placeholder="如：1366*768" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">素材类型</label>
+                            <div class="layui-input-block">
+                                <select name="smTypeId"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">媒体</label>
+                            <div class="layui-input-block">
+                                <select name="mediaId"></select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">素材平台</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="platform" autocomplete="off" placeholder="请输入素材平台" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">素材星级</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="starLevel" autocomplete="off" placeholder="1 / 2 / 3 / 4 / 5 " class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">素材消耗</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="consume" autocomplete="off" placeholder="请输入素材消耗" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="demo1">搜索素材</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入JS库 -->
+<script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use("table");
+    // 浏览文件名展示
+    $("#upload_file").on("change", function () {
+        $(".fileName").val($(this).val());
+    });
+</script>
+<!-- JS监听屏幕改变 -->
+<script type="text/javascript" src="http://192.168.0.125/js/screen_set.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/materialbase.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/init_selectload.js"></script>
+<script type="text/javascript">
+    // 加载素材风格
+    loadSelectItem("POST", "/getstyle", "select[name='smStyleId']", "sName");
+    // 加载素材类型
+    loadSelectItem("POST", "/gettype", "select[name='smTypeId']", "tName");
+    // 加载媒体
+    loadSelectItem("POST", "/getmedia", "select[name='mediaId']", "mName");
+</script>
+</html>

@@ -15,6 +15,14 @@ mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
 
+# 配置素材上传路径
+file:
+  heads: images/upload/heads/
+  material:
+    picture: images/upload/materialbase/picture/
+    video: images/upload/materialbase/video/
+
+
 # 配置 FTP
 ftp:
   upload:
@@ -23,4 +31,3 @@ ftp:
     username: root
     password: root123
     basePath: /opt/file-server/
-    filePath: images/upload/heads/

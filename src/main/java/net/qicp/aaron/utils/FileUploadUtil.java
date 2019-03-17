@@ -24,7 +24,6 @@ public class FileUploadUtil {
     private static String   username    = "root";               // 用户名
     private static String   password    = "root123";            // 密码
     private static String   basePath    = "/opt/file-server/";   // 基础路径
-    private static String   filePath    = "images/upload/heads/";     // 文件路径
 
     /**
      * 文件上传
@@ -33,7 +32,7 @@ public class FileUploadUtil {
      * @param inputStream
      * @return
      */
-    public static String upload(String fileName, InputStream inputStream) {
+    public static String upload(String filePath, String fileName, InputStream inputStream) {
         ChannelSftp sftp = getSFTP();
         try {
             sftp.cd(basePath + filePath);

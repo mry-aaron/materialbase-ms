@@ -31,7 +31,7 @@
                 <a class="nav-link" th:text="${session.telephone}" th:if="${#strings.isEmpty(session.userName)}"></a>
             </li>
             <li class="nav-item">
-                <img src="http://192.168.0.125/images/heads/hetaolinmedia.png" th:src="${session.headImg}" th:if="not ${#strings.isEmpty(session.headImg)}" width="35px" height="35px" style="border-radius:50%">
+                <a href="/umanager.html"><img src="http://192.168.0.125/images/heads/hetaolinmedia.png" th:src="${session.headImg}" th:if="not ${#strings.isEmpty(session.headImg)}" width="35px" height="35px" style="border-radius:50%"></a>
             </li>
         </ul>
     </div>
@@ -45,17 +45,20 @@
                 <a href="/" class="nav-link active"
                    th:class="${activeUri=='index.html' ? 'nav-link active' : 'nav-link'}"> Home </a>
             </li>
-            <li class="nav-item nav-dropdown">
+            <li class="nav-item nav-dropdown"
+                th:class="${activeUri=='record.html' || activeUri=='search.html' ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown'}" >
                 <a href="#" class="nav-link nav-dropdown-toggle"> 素材库 </a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="#" class="nav-link"> 搜索 </a>
+                        <a href="/search.html" class="nav-link"
+                           th:class="${activeUri=='search.html' ? 'nav-link active' : 'nav-link'}"> 搜索 </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link"> 导入 </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/input.html" class="nav-link"> 录入 </a>
+                        <a href="/record.html" class="nav-link"
+                           th:class="${activeUri=='record.html' ? 'nav-link active' : 'nav-link'}"> 录入 </a>
                     </li>
                 </ul>
             </li>

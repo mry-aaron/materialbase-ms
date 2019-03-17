@@ -11,8 +11,7 @@
 
     <!-- 设置别名 -->
     <typeAliases>
-        <typeAlias alias="UserBean" type="net.qicp.aaron.domain.UserBean" />
-        <typeAlias alias="DeptBean" type="net.qicp.aaron.domain.DeptBean" />
+        <package name="net.qicp.aaron.domain"></package>
     </typeAliases>
 
 </configuration>
