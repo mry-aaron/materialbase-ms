@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @Author Aaron
@@ -22,7 +28,8 @@ public class MaterialController {
     private MaterialService materialService;
 
     @RequestMapping("/getstyle")
-    public String getStyle(){
+    public String getStyle(HttpServletRequest request){
+        request.getSession().setAttribute("recordResult", null);
         return materialService.getStyle();
     }
 
@@ -37,9 +44,20 @@ public class MaterialController {
     }
 
     @RequestMapping("/record")
-    public void recordMaterial(@RequestParam("file") MultipartFile file, MaterialBean materialBean, CompanyBean companyBean){
-        materialService.recordMaterial(file, materialBean, companyBean);
+    public void recordMaterial(@RequestParam("file") MultipartFile file, MaterialBean materialBean, CompanyBean companyBean,
+                               HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        // 录入前清空录入结果
+        request.getSession().setAttribute("recordResult", null);
+        if(materialService.recordMaterial(file, materialBean, companyBean)){
+            // 录入成功
+            request.getSession().setAttribute("recordResult", "success");
+        } else {
+            // 录入失败
+            request.getSession().setAttribute("recordResult", "error");
+        }
+        out.print("<script type='text/javascript'>");
+        out.print("location.href='/record.html';");
+        out.print("</script>");
     }
-
-
 }

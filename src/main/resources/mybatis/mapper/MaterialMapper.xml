@@ -32,12 +32,56 @@
     <select id="getType" resultType="SMTypeBean">
         select id,t_name from mbms_smtype
     </select>
-    <!-- 获取媒体 -->
+    <!-- 获取媒体信息 -->
     <select id="getMedia" resultType="MediaBean">
         select id,m_name from mbms_media
     </select>
+    <!-- 获取公司信息 -->
+    <select id="getCompany" resultType="CompanyBean">
+        select id,c_name from mbms_company
+    </select>
 
+    <!-- 根据公司名称查询ID -->
+    <select id="findCompanyIdByName" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select id from mbms_company where c_name=#{_parameter}
+    </select>
 
+    <!-- 保存公司信息 -->
+    <insert id="saveCompany" parameterType="java.lang.String">
+        insert into mbms_company(c_name) values(#{_parameter})
+    </insert>
 
+    <!-- 录入素材 -->
+    <insert id="recordMaterial" parameterType="MaterialBean">
+        insert into mbms_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            company_id,
+            product_name,
+            product_theme,
+            smstyle_id,
+            size,
+            smtype_id,
+            media_id,
+            platform,
+            starlevel,
+            consume,
+            entrytime,
+            materialpath,
+        </trim>
+        <trim prefix=" values(" suffix=")" suffixOverrides=",">
+            #{companyId},
+            #{productName},
+            #{productTheme},
+            #{smStyleId},
+            #{size},
+            #{smTypeId},
+            #{mediaId},
+            #{platform},
+            #{starLevel},
+            #{consume},
+            #{entryTime},
+            #{materialPath},
+        </trim>
+    </insert>
 
 </mapper>

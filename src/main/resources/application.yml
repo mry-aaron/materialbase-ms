@@ -9,25 +9,31 @@ spring:
     password: 123456
     url: jdbc:mysql://192.168.0.109:4000/mbms?serverTimezone=GMT
     driver-class-name: com.mysql.cj.jdbc.Driver
+  ## 配置SpringBoot上传文件的大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
 
-# 配置 MyBatisy
+## 配置 MyBatisy
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
 
-# 配置素材上传路径
+## 配置素材上传路径
 file:
   heads: images/upload/heads/
   material:
     picture: images/upload/materialbase/picture/
     video: images/upload/materialbase/video/
 
+## 配置线程池属性
+task:
+  thread:
+    pool:
+      corePoolSize: 100
+      maxPoolSize: 1000
+      keepAliveSeconds: 60
+      queueCapacity: 100
+      threadNamePrefix: "uploadAsync-"
 
-# 配置 FTP
-ftp:
-  upload:
-    host: 192.168.0.125
-    port: 22
-    username: root
-    password: root123
-    basePath: /opt/file-server/

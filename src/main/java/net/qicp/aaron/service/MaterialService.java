@@ -1,13 +1,12 @@
 package net.qicp.aaron.service;
 
+import net.qicp.aaron.component.FileUploadThread;
 import net.qicp.aaron.domain.CompanyBean;
 import net.qicp.aaron.domain.MaterialBean;
 import net.qicp.aaron.mapper.MaterialMapper;
 import net.qicp.aaron.utils.FileUploadUtil;
 import net.qicp.aaron.utils.UUIDUtil;
-import net.sf.json.JSON;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -28,13 +28,15 @@ import java.util.Date;
 @Service
 public class MaterialService {
     private Logger log = LoggerFactory.getLogger(MaterialService.class);
-    @Value("file.material.picture")
+    @Value("${file.material.picture}")
     private String filePathPicture; // 素材路径（图片）
-    @Value("file.material.vedio")
-    private String filePathVedio; // 素材路径（视频）
+    @Value("${file.material.video}")
+    private String filePathVideo; // 素材路径（视频）
 
     @Autowired
     private MaterialMapper materialMapper;
+    @Autowired
+    private FileUploadThread fileUploadThread;
 
     /**
      * 获取全部素材风格
@@ -93,14 +95,14 @@ public class MaterialService {
             }
             // 判断是否为一个视频
             if(suffix.matches("^\\.(mp4|avi)$")) {
-                filePath = filePathVedio;
+                filePath = filePathVideo;
             }
-            String fPath = FileUploadUtil.upload(filePath, generName, file.getInputStream());
-            log.debug(fPath + "===============MaterialService: fPath====================");
+            // 使用异步线程实现文件上传
+            fileUploadThread.uploadFile(filePath, generName, file.getInputStream());
 
             // 保存信息到数据库
             materialBean.setCompanyId(cId);
-            materialBean.setMaterialPath(fPath);
+            materialBean.setMaterialPath(generName);
             materialBean.setEntryTime(new Timestamp(new Date().getTime()));
             if(materialMapper.recordMaterial(materialBean) > 0) result = true;
         } catch (Exception e){
