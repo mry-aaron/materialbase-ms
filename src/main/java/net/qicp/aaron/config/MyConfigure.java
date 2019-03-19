@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.Arrays;
@@ -34,6 +35,11 @@ public class MyConfigure implements WebMvcConfigurer {
         registry.addViewController("/search.html").setViewName("pages/materialbase/search.html");
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
+    }
+
     /**
      * 配置拦截器拦截请求
      *
@@ -46,7 +52,7 @@ public class MyConfigure implements WebMvcConfigurer {
         // 注册拦截器
         InterceptorRegistration interceptor = registry.addInterceptor(loginHandlerInterceptor);
         // 设置拦截排除
-        interceptor.excludePathPatterns(Arrays.asList("/","/sign.html"));
+        interceptor.excludePathPatterns(Arrays.asList("/","/sign.html","/static/**"));
         interceptor.excludePathPatterns("/error");
         interceptor.excludePathPatterns("/reg","/verifi","/finduser","/sendverificode","/login","/logintele");
         // 设置拦截(拦截全部)

@@ -22,7 +22,31 @@
         <result column="entrytime" property="entryTime"></result>
         <result column="materialpath" property="materialPath"></result>
         <result column="isdelete" property="isDelete"></result>
+        <!-- 配置一对一映射 -->
+        <association property="companyBean" javaType="CompanyBean">
+            <id column="id" property="id"></id>
+            <result column="c_name" property="cName"></result>
+        </association>
+        <association property="smTypeBean" javaType="SMTypeBean">
+            <id column="id" property="id"></id>
+            <result column="t_name" property="tName"></result>
+        </association>
+        <association property="smStyleBean" javaType="SMStyleBean">
+            <id column="id" property="id"></id>
+            <result column="s_name" property="sName"></result>
+        </association>
+        <association property="mediaBean" javaType="MediaBean">
+            <id column="id" property="id"></id>
+            <result column="m_name" property="mName"></result>
+        </association>
     </resultMap>
+
+    <!-- 素材字段列表 -->
+    <sql id="materialColumn">
+        ml.id, product_name, company_id, smtype_id, `size`,
+        smstyle_id, product_theme, download, consume, starlevel,
+        media_id, platform, `like`, browse, entrytime, materialpath
+    </sql>
 
     <!-- 获取素材风格 -->
     <select id="getStyle" resultType="SMStyleBean">
@@ -83,5 +107,94 @@
             #{materialPath},
         </trim>
     </insert>
+
+    <!-- 查询素材 -->
+    <select id="findMaterialBy" parameterType="MaterialBean" resultMap="materialResult">
+        select <include refid="materialColumn"/>,cy.c_name,t.t_name,s.s_name,ma.m_name
+        from mbms_material ml
+        inner join mbms_company cy on ml.company_id=cy.id
+        inner join mbms_smtype t on ml.smtype_id=t.id
+        inner join mbms_smstyle s on ml.smstyle_id=s.id
+        inner join mbms_media ma on ml.media_id=ma.id and
+        <trim suffixOverrides="and">
+            <if test="id != null and id != ''">
+                ml.id=#{id} and
+            </if>
+            <if test="productName != null and productName != ''">
+                product_name=#{productName} and
+            </if>
+            <if test="companyId != null and companyId != ''">
+                company_id=#{companyId} and
+            </if>
+            <if test="smTypeId != null and smTypeId != ''">
+                smtype_id=#{smTypeId} and
+            </if>
+            <if test="size != null and size != ''">
+                `size`=#{size} and
+            </if>
+            <if test="smStyleId != null and smStyleId != ''">
+                smstyle_id=#{smStyleId} and
+            </if>
+            <if test="productTheme != null and productTheme != ''">
+                product_theme=#{productTheme} and
+            </if>
+            <if test="consume != null and consume != ''">
+                consume=#{consume} and
+            </if>
+            <if test="starLevel != null and starLevel != ''">
+                starlevel=#{starLevel}  and
+            </if>
+            <if test="mediaId != null and mediaId != ''">
+                media_id=#{mediaId} and
+            </if>
+            <if test="platform != null and platform != ''">
+                platform=#{platform} and
+            </if>
+            <if test="entryTime != null and entryTime != ''">
+                entrytime=#{entryTime} and
+            </if>
+            <if test="like != null and like > -1">
+                <if test="switchLike == 0">
+                    <![CDATA[`like` <= #{like}]]> and
+                </if>
+                <if test="switchLike == 1">
+                    <![CDATA[`like` = #{like}]]> and
+                </if>
+                <if test="switchLike == 2">
+                    <![CDATA[`like` >= #{like}]]> and
+                </if>
+            </if>
+            <if test="browse != null and browse > -1">
+                <if test="switchBrowse == 0">
+                    <![CDATA[browse <= #{browse}]]> and
+                </if>
+                <if test="switchBrowse == 1">
+                    <![CDATA[browse = #{browse}]]> and
+                </if>
+                <if test="switchBrowse == 2">
+                    <![CDATA[browse >= #{browse}]]> and
+                </if>
+            </if>
+            <if test="download != null and download > -1">
+                <if test="switchDownload == 0">
+                    <![CDATA[download <= #{download}]]> and
+                </if>
+                <if test="switchDownload == 1">
+                    <![CDATA[download = #{download}]]> and
+                </if>
+                <if test="switchDownload == 2">
+                    <![CDATA[download >= #{download}]]> and
+                </if>
+            </if>
+            <if test="isDelete != null and isDelete > -1">
+                isdelete=#{isDelete} and
+            </if>
+        </trim>
+    </select>
+
+    <!-- 修改删除状态为：1删除 -->
+    <update id="delMaterialById" parameterType="java.lang.Integer">
+        update mbms_material set isdelete=1 where id=#{_parameter}
+    </update>
 
 </mapper>

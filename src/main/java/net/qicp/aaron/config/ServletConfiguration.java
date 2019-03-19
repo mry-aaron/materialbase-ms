@@ -24,7 +24,7 @@ public class ServletConfiguration implements WebMvcConfigurer {
     public FilterRegistrationBean filterRegistrationBean(){
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(encodingFilter);
-        registrationBean.setUrlPatterns(Arrays.asList("/edituser"));
+        registrationBean.setUrlPatterns(Arrays.asList("/*"));
         return registrationBean;
     }
 

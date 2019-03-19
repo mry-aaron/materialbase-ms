@@ -9,8 +9,23 @@
     <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
     <link rel="stylesheet" href="http://192.168.0.125/css/media.css">
-    <link rel="stylesheet" href="http://192.168.0.125/layui/css/layui.css">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
     <link rel="stylesheet" href="http://192.168.0.125/css/materialbase.css">
+    <style type="text/css">
+        .layui-table-page{
+            text-align: center;
+        }
+        .layui-input-block{
+            position: relative;
+        }
+        .switch_select .layui-form-select{
+            position: absolute;
+            width: 6rem;
+        }
+        .switch_select .sw {
+            padding-left: 8rem;
+        }
+    </style>
 
 </head>
 <body>
@@ -31,12 +46,12 @@
                 <div><span>搜索</span>素材</div>
             </div>
             <div class="formItem">
-                <form action="" lay-filter="example" class="layui-form">
+                <form method="post" class="layui-form" id="search_form">
                     <div class="layui-form-item">
                         <div class="layui-inline">
                             <label class="layui-form-label">公司名</label>
                             <div class="layui-input-block">
-                                <input type="text" name="companyName" autocomplete="off" placeholder="请输入或选择公司名称" class="layui-input">
+                                <select name="companyId"></select>
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -95,20 +110,59 @@
                                 <input type="text" name="starLevel" autocomplete="off" placeholder="1 / 2 / 3 / 4 / 5 " class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">素材消耗</label>
+                        <div class="layui-inline switch_select">
+                            <label class="layui-form-label">下载次数</label>
                             <div class="layui-input-block">
-                                <input type="text" name="consume" autocomplete="off" placeholder="请输入素材消耗" class="layui-input">
+                                <select name="switchDownload">
+                                    <option value="0">小于</option>
+                                    <option value="1">等于</option>
+                                    <option value="2">大于</option>
+                                </select>
+                                <input type="text" name="download" autocomplete="off" placeholder="请输入下载次数" class="layui-input sw">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline switch_select">
+                            <label class="layui-form-label">点赞次数</label>
+                            <div class="layui-input-block">
+                                <select name="switchLike">
+                                    <option value="0">小于</option>
+                                    <option value="1">等于</option>
+                                    <option value="2">大于</option>
+                                </select>
+                                <input type="text" name="like" autocomplete="off" placeholder="请输入点赞次数" class="layui-input sw">
+                            </div>
+                        </div>
+                        <div class="layui-inline switch_select">
+                            <label class="layui-form-label">浏览次数</label>
+                            <div class="layui-input-block">
+                                <select name="switchBrowse">
+                                    <option value="0">小于</option>
+                                    <option value="1">等于</option>
+                                    <option value="2">大于</option>
+                                </select>
+                                <input type="text" name="browse" autocomplete="off" placeholder="请输入浏览次数" class="layui-input sw">
                             </div>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="demo1">搜索素材</button>
+                            <button class="layui-btn" id="search_btn" lay-filter="demo1">搜索素材</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="row">
+                <div><span>素材</span>列表</div>
+            </div>
+            <div class="material_list">
+                <table class="layui-hide" id="materialList" lay-filter="test"></table>
+                <script type="text/html" id="barOps">
+                    <a class="layui-btn layui-btn-xs" lay-event="edit" id="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="del">删除</a>
+                </script>
             </div>
         </div>
     </div>
@@ -117,12 +171,108 @@
 <!-- 引入JS库 -->
 <script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://192.168.0.125/layui/layui.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/carbon.js"></script>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
 <script type="text/javascript">
-    layui.use("table");
-    // 浏览文件名展示
-    $("#upload_file").on("change", function () {
-        $(".fileName").val($(this).val());
+    $(function () {
+        function msgbox(_msg){
+            layui.use('layer', function(){
+                // 定义/使用弹框
+                var active = {
+                    confirmTrans: function(){
+                        layer.msg(_msg , {
+                            time: 2000 //2s后自动关闭
+                        });
+                    }
+                };
+                active['confirmTrans'] ? active['confirmTrans'].call(this) : '';
+            });
+        }
+        // 页面加载全部素材信息
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#materialList'
+                ,url:'/findmaterial'
+                ,cols: [
+                    [
+                        {field:'id',            width:50,        title: 'ID',     sort: true}
+                        ,{field:'cName',        width:100,       title: '公司名'}
+                        ,{field:'productName',  width:100,       title: '产品名'}
+                        ,{field:'productTheme', width:100,       title: '产品题材'}
+                        ,{field:'sName',        width:80,        title: '风格'}
+                        ,{field:'size',         width:100,       title: '素材尺寸',sort: true}
+                        ,{field:'tName',        width:100,       title: '素材类型'}
+                        ,{field:'mName',        width:100,       title: '媒体'}
+                        ,{field:'platform',     width:100,       title: '平台'}
+                        ,{field:'starLevel',    width:80,        title: '星级',   sort: true}
+                        ,{field:'like',         width:80,        title: '点赞',   sort: true}
+                        ,{field:'download',     width:80,        title: '下载',   sort: true}
+                        ,{field:'browse',       width:80,        title: '浏览',   sort: true}
+                        ,{field:'entryTime',    width:180,       title: '录入时间', sort: true}
+                        ,{fixed: 'right',       width:115,       title: '操作',   toolbar: '#barOps'}
+                    ]
+                ]
+                ,page: true
+            });
+            // 监听行工具事件
+            table.on('tool(test)', function(obj){
+                var data = obj.data;
+                if(obj.event === 'del'){
+                    layer.confirm('真的删除行么？', function(index){
+                        obj.del(); // 删除当前行
+                        layer.close(index); // 关闭提示框
+                        // 删除数据库数据
+                        $.post("/delmaterial", "id="+data["id"], function (data) {
+                            if (data){
+                                msgbox("删除成功！");
+                            } else {
+                                msgbox("请重试！");
+                            }
+                        });
+
+                    });
+                } else if(obj.event === 'edit'){
+                    alert("编辑成功！");
+                }
+            });
+        });
+        // form异步提交
+        $("#search_btn").on("click", function () {
+            // 获取所有参数/值
+            var d = $("#search_form").serialize();
+            // 渲染数据
+            layui.use('table', function(){
+                var table = layui.table;
+                table.render({
+                    elem: '#materialList'
+                    ,url: '/findmaterial?' + d
+                    ,cols: [
+                        [
+                            {field:'id',            width:50,        title: 'ID',     sort: true}
+                            ,{field:'cName',        width:100,       title: '公司名'}
+                            ,{field:'productName',  width:100,       title: '产品名'}
+                            ,{field:'productTheme', width:100,       title: '产品题材'}
+                            ,{field:'sName',        width:80,        title: '风格'}
+                            ,{field:'size',         width:100,       title: '素材尺寸',sort: true}
+                            ,{field:'tName',        width:100,       title: '素材类型'}
+                            ,{field:'mName',        width:100,       title: '媒体'}
+                            ,{field:'platform',     width:100,       title: '平台'}
+                            ,{field:'starLevel',    width:80,        title: '星级',   sort: true}
+                            ,{field:'like',         width:80,        title: '点赞',   sort: true}
+                            ,{field:'download',     width:80,        title: '下载',   sort: true}
+                            ,{field:'browse',       width:80,        title: '浏览',   sort: true}
+                            ,{field:'entryTime',    width:180,       title: '录入时间', sort: true}
+                            ,{fixed: 'right',       width:115,       title: '操作',   toolbar: '#barOps'}
+                        ]
+                    ]
+                    ,page: true
+                });
+            });
+
+            return false;
+        });
+
     });
 </script>
 <!-- JS监听屏幕改变 -->
@@ -130,6 +280,8 @@
 <script type="text/javascript" src="http://192.168.0.125/js/materialbase.js"></script>
 <script type="text/javascript" src="http://192.168.0.125/js/init_selectload.js"></script>
 <script type="text/javascript">
+    // 加载公司名称
+    loadSelectItem("POST", "/getCompany", "select[name='companyId']", "cName");
     // 加载素材风格
     loadSelectItem("POST", "/getstyle", "select[name='smStyleId']", "sName");
     // 加载素材类型

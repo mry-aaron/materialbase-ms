@@ -14,4 +14,12 @@
         <package name="net.qicp.aaron.domain"></package>
     </typeAliases>
 
+    <!-- 配置分页插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+
+
 </configuration>

@@ -56,4 +56,18 @@ public interface MaterialMapper {
      */
     Integer recordMaterial(MaterialBean materialBean);
 
+    /**
+     * 查询素材
+     * @param materialBean
+     * @return
+     */
+    List<MaterialBean> findMaterialBy(MaterialBean materialBean);
+
+    /**
+     * 删除素材通过ID
+     * @param id
+     * @return
+     */
+    Integer delMaterialById(Integer id);
+
 }

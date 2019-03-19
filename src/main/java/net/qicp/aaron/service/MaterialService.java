@@ -1,5 +1,7 @@
 package net.qicp.aaron.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import net.qicp.aaron.component.FileUploadThread;
 import net.qicp.aaron.domain.CompanyBean;
 import net.qicp.aaron.domain.MaterialBean;
@@ -7,17 +9,26 @@ import net.qicp.aaron.mapper.MaterialMapper;
 import net.qicp.aaron.utils.FileUploadUtil;
 import net.qicp.aaron.utils.UUIDUtil;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.processors.JsDateJsonValueProcessor;
+import net.sf.json.processors.JsonValueProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @Author Aaron
@@ -37,6 +48,14 @@ public class MaterialService {
     private MaterialMapper materialMapper;
     @Autowired
     private FileUploadThread fileUploadThread;
+
+    /**
+     * 获取全部公司
+     * @return json
+     */
+    public String getCompany(){
+        return JSONArray.fromObject(materialMapper.getCompany()).toString();
+    }
 
     /**
      * 获取全部素材风格
@@ -112,4 +131,59 @@ public class MaterialService {
         return result;
     }
 
+    /**
+     * 查询素材
+     * @param materialBean
+     * @return
+     */
+    public String findMaterial(MaterialBean materialBean){
+        // 定义返回数据
+        HashMap<String, Object> result = new HashMap<>();
+        // 分页处理
+        PageHelper.startPage(materialBean.getPage(), materialBean.getLimit());
+        materialBean.setIsDelete(0); // 默认查询未删除素材
+        List<MaterialBean> materials = materialMapper.findMaterialBy(materialBean);
+        for (MaterialBean material : materials){
+            material.setcName(material.getCompanyBean().getcName());
+            material.settName(material.getSmTypeBean().gettName());
+            material.setsName(material.getSmStyleBean().getsName());
+            material.setmName(material.getMediaBean().getmName());
+        }
+        // 绑定返回结果集
+        if (materials != null) {
+            // 处理Timestamp日期格式
+            JsonConfig jsonConfig = new JsonConfig();
+            jsonConfig.registerJsonValueProcessor(Timestamp.class, new JsonValueProcessor() {
+                private String format = "yyyy-MM-dd HH:mm:ss";
+                public Object processArrayValue(Object value, JsonConfig config) { return process(value); }
+                public Object processObjectValue(String arg0, Object value, JsonConfig config) { return process(value); }
+                private Object process(Object value) {
+                    //遇到类型为日期的，就自动转换成“yyyy-MM-dd HH:mm:ss”格式的字符串
+                    if (value instanceof Timestamp) {
+                        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.UK);
+                        return sdf.format(((Timestamp) value).getTime());
+                    }
+                    return value == null ? "" : value.toString();
+                }
+            });
+            // 处理结果
+            PageInfo<MaterialBean> pageInfo = new PageInfo<>(materials);
+            result.put("code",  0);
+            result.put("msg",   "");
+            result.put("count", pageInfo.getTotal());
+            result.put("data",  JSONArray.fromObject(materials, jsonConfig));
+        }
+        log.debug(JSONObject.fromObject(result).toString()); // 查询结果
+
+        return JSONObject.fromObject(result).toString();
+    }
+
+    /**
+     * 删除素材
+     * @param id
+     * @return
+     */
+    public boolean delMaterialById(Integer id){
+        return materialMapper.delMaterialById(id) > 0 ? true : false;
+    }
 }

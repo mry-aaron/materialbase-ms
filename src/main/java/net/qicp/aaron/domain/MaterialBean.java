@@ -28,6 +28,25 @@ public class MaterialBean {
     private String      materialPath;   // 素材路径
     private Integer     isDelete;       // 删除标记（0：未删，1：删除）
 
+    /* 用于区分大于2/等于1/小于0*/
+    private Integer switchLike;
+    private Integer switchDownload;
+    private Integer switchBrowse;
+
+    /* 配置一对一查询 */
+    private CompanyBean companyBean;
+    private SMTypeBean  smTypeBean;
+    private SMStyleBean smStyleBean;
+    private MediaBean   mediaBean;
+    private String      cName;
+    private String      tName;
+    private String      sName;
+    private String      mName;
+
+    /* 分页属性 */
+    private Integer page  = 1;   // 页数
+    private Integer limit = 10;  // 行数
+
     /**
      * 构造器
      */
@@ -157,5 +176,86 @@ public class MaterialBean {
     }
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
+    }
+    /* switch */
+    public Integer getSwitchLike() {
+        return switchLike;
+    }
+    public void setSwitchLike(Integer switchLike) {
+        this.switchLike = switchLike;
+    }
+    public Integer getSwitchDownload() {
+        return switchDownload;
+    }
+    public void setSwitchDownload(Integer switchDownload) {
+        this.switchDownload = switchDownload;
+    }
+    public Integer getSwitchBrowse() {
+        return switchBrowse;
+    }
+    public void setSwitchBrowse(Integer switchBrowse) {
+        this.switchBrowse = switchBrowse;
+    }
+    /* 一对一 */
+    public CompanyBean getCompanyBean() {
+        return companyBean;
+    }
+    public void setCompanyBean(CompanyBean companyBean) {
+        this.companyBean = companyBean;
+    }
+    public SMTypeBean getSmTypeBean() {
+        return smTypeBean;
+    }
+    public void setSmTypeBean(SMTypeBean smTypeBean) {
+        this.smTypeBean = smTypeBean;
+    }
+    public SMStyleBean getSmStyleBean() {
+        return smStyleBean;
+    }
+    public void setSmStyleBean(SMStyleBean smStyleBean) {
+        this.smStyleBean = smStyleBean;
+    }
+    public MediaBean getMediaBean() {
+        return mediaBean;
+    }
+    public void setMediaBean(MediaBean mediaBean) {
+        this.mediaBean = mediaBean;
+    }
+    public String getcName() {
+        return cName;
+    }
+    public void setcName(String cName) {
+        this.cName = cName;
+    }
+    public String gettName() {
+        return tName;
+    }
+    public void settName(String tName) {
+        this.tName = tName;
+    }
+    public String getsName() {
+        return sName;
+    }
+    public void setsName(String sName) {
+        this.sName = sName;
+    }
+    public String getmName() {
+        return mName;
+    }
+    public void setmName(String mName) {
+        this.mName = mName;
+    }
+    /* 分页属性 */
+    public Integer getPage() {
+        return page;
+    }
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+    public Integer getLimit() {
+        return limit;
+    }
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 }

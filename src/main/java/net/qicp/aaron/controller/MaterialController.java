@@ -27,6 +27,11 @@ public class MaterialController {
     @Autowired
     private MaterialService materialService;
 
+    @RequestMapping("/getCompany")
+    public String getCompany(){
+        return materialService.getCompany();
+    }
+
     @RequestMapping("/getstyle")
     public String getStyle(HttpServletRequest request){
         request.getSession().setAttribute("recordResult", null);
@@ -59,5 +64,15 @@ public class MaterialController {
         out.print("<script type='text/javascript'>");
         out.print("location.href='/record.html';");
         out.print("</script>");
+    }
+
+    @RequestMapping("/findmaterial")
+    public String findMaterialList(MaterialBean materialBean){
+        return materialService.findMaterial(materialBean);
+    }
+
+    @RequestMapping("/delmaterial")
+    public boolean delMaterial(@RequestParam("id") Integer id){
+        return materialService.delMaterialById(id);
     }
 }
