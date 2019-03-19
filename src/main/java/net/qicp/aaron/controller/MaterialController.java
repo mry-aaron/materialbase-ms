@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +26,7 @@ public class MaterialController {
     @Autowired
     private MaterialService materialService;
 
-    @RequestMapping("/getCompany")
+    @RequestMapping("/getcompany")
     public String getCompany(){
         return materialService.getCompany();
     }
@@ -75,4 +74,10 @@ public class MaterialController {
     public boolean delMaterial(@RequestParam("id") Integer id){
         return materialService.delMaterialById(id);
     }
+
+    @RequestMapping("/editmaterial")
+    public boolean editMaterial(MaterialBean materialBean){
+        return materialService.editMaterial(materialBean);
+    }
+
 }

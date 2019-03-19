@@ -1,8 +1,6 @@
 package net.qicp.aaron.mapper;
 
 import net.qicp.aaron.domain.UserBean;
-import org.apache.catalina.User;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 /**

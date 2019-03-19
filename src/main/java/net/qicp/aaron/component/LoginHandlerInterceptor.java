@@ -1,7 +1,5 @@
 package net.qicp.aaron.component;
 
-import net.qicp.aaron.domain.UserBean;
-import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

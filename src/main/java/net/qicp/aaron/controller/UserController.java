@@ -2,9 +2,7 @@ package net.qicp.aaron.controller;
 
 import net.qicp.aaron.domain.UserBean;
 import net.qicp.aaron.service.UserService;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
-import org.apache.tomcat.jni.Multicast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

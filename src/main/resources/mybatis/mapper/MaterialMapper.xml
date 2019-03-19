@@ -190,11 +190,54 @@
                 isdelete=#{isDelete} and
             </if>
         </trim>
+        order by ml.id asc
     </select>
 
     <!-- 修改删除状态为：1删除 -->
     <update id="delMaterialById" parameterType="java.lang.Integer">
         update mbms_material set isdelete=1 where id=#{_parameter}
+    </update>
+
+    <!-- 修改素材 -->
+    <update id="editMaterial" parameterType="MaterialBean">
+        update mbms_material
+        <set>
+            <trim suffixOverrides=",">
+                <if test="companyId != null and companyId > 0">
+                    company_id=#{companyId},
+                </if>
+                <if test="productName != null and productName != ''">
+                    product_name=#{productName},
+                </if>
+                <if test="productTheme != null and productTheme != ''">
+                    product_theme=#{productTheme},
+                </if>
+                <if test="smStyleId != null and smStyleId > 0">
+                    smstyle_id=#{smStyleId},
+                </if>
+                <if test="size != null and size != ''">
+                    `size`=#{size},
+                </if>
+                <if test="smTypeId != null and smTypeId > 0">
+                    smtype_id=#{smTypeId},
+                </if>
+                <if test="mediaId != null and mediaId > 0">
+                    media_id=#{mediaId},
+                </if>
+                <if test="platform != null and platform != ''">
+                    platform=#{platform},
+                </if>
+                <if test="starLevel != null and starLevel > -1">
+                    starlevel=#{starLevel},
+                </if>
+                <if test="consume != null and consume != ''">
+                    consume=#{consume},
+                </if>
+            </trim>
+        </set>
+        <where>
+            id=#{id}
+        </where>
     </update>
 
 </mapper>

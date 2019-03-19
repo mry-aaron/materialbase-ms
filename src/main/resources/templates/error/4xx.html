@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>4xx</title>
+
+    <!-- 引入CSS样式表 -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/reset.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/media.css">
+    <style type="text/css">
+        .container-fluid div {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 头部信息 -->
+<div class="header">
+    <!-- 顶部导航栏 -->
+    <div th:replace="~{pages/iframe/navbar.html::topNav}"></div>
+</div>
+
+<!-- 主体信息 -->
+<div class="main-container">
+    <!-- 左侧导航栏 -->
+    <div th:replace="~{pages/iframe/navbar::leftNav}"></div>
+    <!-- 主体内容 -->
+    <div class="content">
+        <div class="container-fluid">
+            <!--<div class="error">
+                <p class="title"><span class="code" th:text="${status}"></span>非常抱歉，没有找到您要查看的页面</p>
+                <a href="/" class="btn-back common-button">返回首页
+                    <img class="logo-back" src="/img/back.png">
+                </a>
+                <div class="common-hint-word">
+                    <div th:text="${#dates.format(timestamp,'yyyy-MM-dd HH:mm:ss')}"></div>
+                    <div th:text="${messages}"></div>
+                    <div th:text="${error}"></div>
+                </div>
+            </div>-->
+            <div>
+                <h1>404</h1>
+                <h2>页面走丢了！请重试！</h2>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入JS库 -->
+<script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/carbon.js"></script>
+<!-- JS监听屏幕改变 -->
+<script type="text/javascript" src="http://192.168.0.125/js/screen_set.js"></script>
+</html>

@@ -1,10 +1,7 @@
 package net.qicp.aaron.config;
 
 import net.qicp.aaron.component.LoginHandlerInterceptor;
-import net.qicp.aaron.filter.EncodingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.*;
@@ -33,6 +30,9 @@ public class MyConfigure implements WebMvcConfigurer {
         registry.addViewController("/record.html").setViewName("pages/materialbase/record.html");
         // 搜索素材
         registry.addViewController("/search.html").setViewName("pages/materialbase/search.html");
+        // 编辑素材
+        registry.addViewController("/edit.html").setViewName("pages/iframe/edit.html");
+
     }
 
     @Override

@@ -6,23 +6,18 @@ import net.qicp.aaron.component.FileUploadThread;
 import net.qicp.aaron.domain.CompanyBean;
 import net.qicp.aaron.domain.MaterialBean;
 import net.qicp.aaron.mapper.MaterialMapper;
-import net.qicp.aaron.utils.FileUploadUtil;
 import net.qicp.aaron.utils.UUIDUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
-import net.sf.json.processors.JsDateJsonValueProcessor;
 import net.sf.json.processors.JsonValueProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -186,4 +181,14 @@ public class MaterialService {
     public boolean delMaterialById(Integer id){
         return materialMapper.delMaterialById(id) > 0 ? true : false;
     }
+
+    /**
+     * 编辑素材
+     * @param materialBean
+     * @return
+     */
+     public boolean editMaterial(MaterialBean materialBean){
+        return materialMapper.editMaterial(materialBean) > 0 ? true : false;
+     }
+
 }

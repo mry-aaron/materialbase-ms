@@ -70,4 +70,11 @@ public interface MaterialMapper {
      */
     Integer delMaterialById(Integer id);
 
+    /**
+     * 编辑素材
+     * @param materialBean
+     * @return
+     */
+    Integer editMaterial(MaterialBean materialBean);
+
 }

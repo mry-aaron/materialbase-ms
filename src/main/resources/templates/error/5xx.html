@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>5xx</title>
+
+    <!-- 引入CSS样式表 -->
+    <link rel="stylesheet" href="http://192.168.0.125/css/reset.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/styles.css">
+    <link rel="stylesheet" href="http://192.168.0.125/css/media.css">
+    <style type="text/css">
+        .container-fluid div {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 头部信息 -->
+<div class="header">
+    <!-- 顶部导航栏 -->
+    <div th:replace="~{pages/iframe/navbar.html::topNav}"></div>
+</div>
+
+<!-- 主体信息 -->
+<div class="main-container">
+    <!-- 左侧导航栏 -->
+    <div th:replace="~{pages/iframe/navbar::leftNav}"></div>
+    <!-- 主体内容 -->
+    <div class="content">
+        <div class="container-fluid">
+           <div>
+               <h1>5xx</h1>
+               <h2>服务器异常，请稍后再试！</h2>
+           </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入JS库 -->
+<script type="text/javascript" src="http://192.168.0.125/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://192.168.0.125/js/carbon.js"></script>
+<!-- JS监听屏幕改变 -->
+<script type="text/javascript" src="http://192.168.0.125/js/screen_set.js"></script>
+</html>
