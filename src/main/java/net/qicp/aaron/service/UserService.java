@@ -4,6 +4,7 @@ import net.qicp.aaron.domain.UserBean;
 import net.qicp.aaron.mapper.UserMapper;
 import net.qicp.aaron.utils.FileUploadUtil;
 import net.qicp.aaron.utils.MD5Util;
+import net.qicp.aaron.utils.SendVerificationCodeUtil;
 import net.qicp.aaron.utils.UUIDUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -29,6 +31,8 @@ public class UserService {
     private Logger log = LoggerFactory.getLogger(UserService.class);
     @Value("${file.heads}")
     private String filePath;
+    @Value("${file.material.host}")
+    private String host;
 
     @Autowired
     private UserMapper userMapper;
@@ -76,8 +80,8 @@ public class UserService {
             request.getSession().setAttribute("code", randNum);
             // 发送短信验证码
             String tplValue = "#code#=" + randNum;
-            /*String result = SendVerificationCodeUtil.sendShortMessage(telephone, URLEncoder.encode(tplValue, "UTF-8"), "json");*/
-            String result = "{\"error_code\":0,\"result\":\"...\",\"reason\":\"操作成功\"}";
+            String result = SendVerificationCodeUtil.sendShortMessage(telephone, URLEncoder.encode(tplValue, "UTF-8"), "json");
+            /*String result = "{\"error_code\":0,\"result\":\"...\",\"reason\":\"操作成功\"}";*/
             // 处理返回结果
             object = JSONObject.fromObject(result);
             if (object.getInt("error_code") == 0) {
@@ -110,7 +114,7 @@ public class UserService {
             userBean.setLastLoginTime(new Timestamp(new Date().getTime()));
             userMapper.updateLoginTime(userBean);
             // 设置用户头像
-            request.getSession().setAttribute("headImg", "http://192.168.0.125/images/upload/heads/"+userMapper.findUserByNameOrTelephone(userBean).getHeadImg());
+            request.getSession().setAttribute("headImg", host+filePath+userMapper.findUserByNameOrTelephone(userBean).getHeadImg());
         }
         return user;
     }
@@ -133,7 +137,7 @@ public class UserService {
             userBean.setLastLoginTime(new Timestamp(new Date().getTime()));
             userMapper.updateLoginTime(userBean);
             // 设置用户头像
-            request.getSession().setAttribute("headImg", "http://192.168.0.125/images/upload/heads/"+userMapper.findUserByNameOrTelephone(userBean).getHeadImg());
+            request.getSession().setAttribute("headImg", host+filePath+userMapper.findUserByNameOrTelephone(userBean).getHeadImg());
             return userBean;
         }
         return null;
