@@ -23,7 +23,6 @@
     <!-- 顶部导航栏 -->
     <div th:replace="~{pages/iframe/navbar.html::topNav}"></div>
 </div>
-
 <!-- 主体信息 -->
 <div class="main-container">
     <!-- 左侧导航栏 -->
@@ -31,10 +30,19 @@
     <!-- 主体内容 -->
     <div class="content">
         <div class="container-fluid">
-           <div>
-               <h1>5xx</h1>
+            <div>
+               <h1>[[${status}}]]</h1>
                <h2>服务器异常，请稍后再试！</h2>
            </div>
+            <div class="error">
+                <p class="title"><span class="code" th:text="${status}"></span>非常抱歉，服务器走丢了！</p>
+                <a href="/" class="btn-back common-button">返回首页</a>
+                <div class="common-hint-word">
+                    <div th:text="${#dates.format(timestamp,'yyyy-MM-dd HH:mm:ss')}"></div>
+                    <div th:text="${messages}"></div>
+                    <div th:text="${error}"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
