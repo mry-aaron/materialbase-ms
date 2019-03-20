@@ -3,16 +3,19 @@ package net.qicp.aaron.controller;
 import net.qicp.aaron.domain.CompanyBean;
 import net.qicp.aaron.domain.MaterialBean;
 import net.qicp.aaron.service.MaterialService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * @Author Aaron
@@ -78,6 +81,23 @@ public class MaterialController {
     @RequestMapping("/editmaterial")
     public boolean editMaterial(MaterialBean materialBean){
         return materialService.editMaterial(materialBean);
+    }
+
+    /* 素材展示 */
+
+    @RequestMapping("/homebanner")
+    public String homeBannerData(){
+        return materialService.homeBannerData();
+    }
+
+    @RequestMapping("/getallpicsm")
+    public String getAllPicSM(MaterialBean materialBean){
+        return materialService.getAllSM(materialBean);
+    }
+
+    @RequestMapping("/download")
+    public void fileDownload(@RequestParam("id") String fileName,@RequestParam("format") String format, HttpServletResponse response) throws Exception {
+        materialService.fileDownload(fileName, format, response);
     }
 
 }

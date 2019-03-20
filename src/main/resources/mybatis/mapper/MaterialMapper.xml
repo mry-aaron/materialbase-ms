@@ -240,4 +240,20 @@
         </where>
     </update>
 
+    <!-- 查询点赞量前五的素材 -->
+    <select id="getMaterialTop5" resultMap="materialResult" parameterType="java.lang.Integer">
+        select id,materialpath,product_name
+        from mbms_material
+        where smtype_id=#{_parameter} and isdelete=0
+        order by `like` desc
+        limit 5
+    </select>
+
+    <!-- 获取所有素材 -->
+    <select id="getAllSM" resultMap="materialResult" parameterType="MaterialBean">
+        select id,product_name,`like`,download,materialpath
+        from mbms_material
+        where isdelete=0 and smtype_id=#{smTypeId}
+    </select>
+
 </mapper>

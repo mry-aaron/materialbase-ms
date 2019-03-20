@@ -7,6 +7,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class MyConfigure implements WebMvcConfigurer {
@@ -52,9 +53,17 @@ public class MyConfigure implements WebMvcConfigurer {
         // 注册拦截器
         InterceptorRegistration interceptor = registry.addInterceptor(loginHandlerInterceptor);
         // 设置拦截排除
-        interceptor.excludePathPatterns(Arrays.asList("/","/sign.html","/static/**"));
+        // 页面/静态资源
+        List<String> pages = Arrays.asList("/", "/sign.html", "/static/**");
+        interceptor.excludePathPatterns(pages);
+        // 登录注册请求
+        List<String> sign = Arrays.asList("/reg", "/verifi", "/finduser", "/sendverificode", "/login", "/logintele");
+        interceptor.excludePathPatterns(sign);
+        // 首页素材加载请求
+        List<String> home = Arrays.asList("/homebanner", "/getallpicsm");
+        interceptor.excludePathPatterns(home);
+        // 请求错误地址
         interceptor.excludePathPatterns("/error");
-        interceptor.excludePathPatterns("/reg","/verifi","/finduser","/sendverificode","/login","/logintele");
         // 设置拦截(拦截全部)
         interceptor.addPathPatterns("/**");
 

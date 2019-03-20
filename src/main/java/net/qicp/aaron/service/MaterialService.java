@@ -11,6 +11,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +45,8 @@ public class MaterialService {
     private String filePathPicture; // 素材路径（图片）
     @Value("${file.material.video}")
     private String filePathVideo; // 素材路径（视频）
+    @Value("${file.material.host}")
+    private String host; // 素材服务器IP
 
     @Autowired
     private MaterialMapper materialMapper;
@@ -106,10 +115,10 @@ public class MaterialService {
             String filePath = null;
             if(suffix.matches("^\\.(jpg|png|gif)$")) {
                 filePath = filePathPicture;
-            }
-            // 判断是否为一个视频
-            if(suffix.matches("^\\.(mp4|avi)$")) {
+            } else if(suffix.matches("^\\.(mp4|avi)$")) { // 判断是否为一个视频
                 filePath = filePathVideo;
+            } else {
+                return result;
             }
             // 使用异步线程实现文件上传
             fileUploadThread.uploadFile(filePath, generName, file.getInputStream());
@@ -190,5 +199,75 @@ public class MaterialService {
      public boolean editMaterial(MaterialBean materialBean){
         return materialMapper.editMaterial(materialBean) > 0 ? true : false;
      }
+
+    /**
+     * 首页图片轮播（点赞量排名前5的素材）
+     * @return
+     */
+    public String homeBannerData(){
+        // type - 1：图片  2：视频
+        return JSONArray.fromObject(materialMapper.getMaterialTop5(1)).toString();
+     }
+
+    /**
+     * 获取全部素材
+      * @return
+     */
+    public String getAllSM(MaterialBean materialBean){
+        HashMap<String, Object> result = null;
+        PageHelper.startPage(materialBean.getPage(), materialBean.getLimit());
+        // type - 1：图片  2：视频
+        materialBean.setSmTypeId(1);
+        List<MaterialBean> lists = materialMapper.getAllSM(materialBean);
+        if(lists != null && lists.size() > 0){
+            result = new HashMap<>();
+            PageInfo<MaterialBean> pageInfo = new PageInfo<>(lists);
+            result.put("code", 0);
+            result.put("data", lists);
+            result.put("total", pageInfo.getTotal());
+        }
+
+        return JSONObject.fromObject(result).toString();
+    }
+
+    /**
+     * 文件下载
+     * @param fileName
+     */
+    public void fileDownload(String fileName, String format, HttpServletResponse response) throws Exception {
+
+        // 判断是图片还是视频
+        String filePath = host;
+        if(format.matches("^jpg|png|gif$")) {
+            filePath += filePathPicture;
+        } else if(format.matches("^mp4|avi$")) {
+            filePath += filePathVideo;
+        }
+        format = "." + format;
+
+        //创建url;
+        URL url = new URL(filePath + fileName + format);
+        log.debug(filePath+fileName+format);
+        //创建url连接;
+        HttpURLConnection urlconn = (HttpURLConnection)url.openConnection();
+        //链接远程服务器;
+        urlconn.connect();
+        try(
+                BufferedInputStream bis = new BufferedInputStream(urlconn.getInputStream());
+                ServletOutputStream sos = response.getOutputStream()
+        ){
+            // 指定允许其他域名访问
+            response.addHeader("Access-Control-Allow-Origin","*");
+            //客户使用保存文件的对话框：
+            response.setHeader("Content-disposition","inline;filename="+fileName+format);
+            //通知客户文件的MIME类型：
+            response.setContentType("application/octet-stream exe;charset=gb2312");
+            IOUtils.copy(bis, sos);
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            urlconn.disconnect();
+        }
+    }
 
 }

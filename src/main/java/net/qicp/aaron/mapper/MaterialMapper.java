@@ -77,4 +77,18 @@ public interface MaterialMapper {
      */
     Integer editMaterial(MaterialBean materialBean);
 
+    /**
+     * 获取点赞次数排名前五的素材
+     * @param type 素材类型
+     * @return
+     */
+    List<MaterialBean> getMaterialTop5(Integer type);
+
+    /**
+     * 获取全部素材
+     * @param materialBean
+     * @return
+     */
+    List<MaterialBean> getAllSM(MaterialBean materialBean);
+
 }
