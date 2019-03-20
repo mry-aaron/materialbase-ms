@@ -26,7 +26,7 @@ public class MyConfigure implements WebMvcConfigurer {
         // 访问用户管理页面
         registry.addViewController("/umanager.html").setViewName("pages/usermanager.html");
         // 访问详情页
-        registry.addViewController("/details.html").setViewName("pages/details.html");
+        registry.addViewController("/details.html").setViewName("pages/materialbase/details.html");
         // 录入素材
         registry.addViewController("/record.html").setViewName("pages/materialbase/record.html");
         // 搜索素材

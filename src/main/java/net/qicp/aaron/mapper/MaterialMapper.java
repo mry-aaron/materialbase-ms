@@ -3,6 +3,7 @@ package net.qicp.aaron.mapper;
 import net.qicp.aaron.domain.*;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -90,5 +91,31 @@ public interface MaterialMapper {
      * @return
      */
     List<MaterialBean> getAllSM(MaterialBean materialBean);
+
+    /**
+     * 修改下载次数
+     * @param id
+     */
+    void updateDownloadCount(Integer id);
+
+    /**
+     * 获取下载次数
+     * @param id
+     * @return
+     */
+    String getDownload(Integer id);
+
+    /**
+     * 根据ID获取素材详情
+     * @param id
+     * @return
+     */
+    MaterialBean getDetails(Integer id);
+
+    /**
+     * 获取下载次数前十的素材
+     * @return
+     */
+    LinkedList<MaterialBean> getMaterialDownloadTop10();
 
 }

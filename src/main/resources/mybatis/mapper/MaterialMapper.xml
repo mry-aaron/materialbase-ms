@@ -47,6 +47,15 @@
         smstyle_id, product_theme, download, consume, starlevel,
         media_id, platform, `like`, browse, entrytime, materialpath
     </sql>
+    <!-- 连接查询 -->
+    <sql id="joinQuery">
+        select <include refid="materialColumn"/>,cy.c_name,t.t_name,s.s_name,ma.m_name
+        from mbms_material ml
+        inner join mbms_company cy on ml.company_id=cy.id
+        inner join mbms_smtype t on ml.smtype_id=t.id
+        inner join mbms_smstyle s on ml.smstyle_id=s.id
+        inner join mbms_media ma on ml.media_id=ma.id
+    </sql>
 
     <!-- 获取素材风格 -->
     <select id="getStyle" resultType="SMStyleBean">
@@ -110,12 +119,7 @@
 
     <!-- 查询素材 -->
     <select id="findMaterialBy" parameterType="MaterialBean" resultMap="materialResult">
-        select <include refid="materialColumn"/>,cy.c_name,t.t_name,s.s_name,ma.m_name
-        from mbms_material ml
-        inner join mbms_company cy on ml.company_id=cy.id
-        inner join mbms_smtype t on ml.smtype_id=t.id
-        inner join mbms_smstyle s on ml.smstyle_id=s.id
-        inner join mbms_media ma on ml.media_id=ma.id and
+        <include refid="joinQuery"/> and
         <trim suffixOverrides="and">
             <if test="id != null and id != ''">
                 ml.id=#{id} and
@@ -254,6 +258,29 @@
         select id,product_name,`like`,download,materialpath
         from mbms_material
         where isdelete=0 and smtype_id=#{smTypeId}
+    </select>
+
+    <!-- 修改下载次数 -->
+    <update id="updateDownloadCount" parameterType="java.lang.Integer">
+        update mbms_material set download=download+1
+        where id=#{_parameter}
+    </update>
+
+    <!-- 查询下载次数 -->
+    <select id="getDownload" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select download from mbms_material where id=#{_parameter}
+    </select>
+
+    <!-- 根据编号查询素材 -->
+    <select id="getDetails" resultMap="materialResult" parameterType="java.lang.Integer">
+        <include refid="joinQuery"/> and isdelete=0 and smtype_id=1 and ml.id=#{_parameter}
+    </select>
+
+    <!-- 查询下载次数前10的素材 -->
+    <select id="getMaterialDownloadTop10" resultMap="materialResult">
+        <include refid="joinQuery"/> and isdelete=0 and smtype_id=1
+        order by download desc
+        limit 10
     </select>
 
 </mapper>

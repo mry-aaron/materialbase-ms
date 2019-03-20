@@ -3,19 +3,17 @@ package net.qicp.aaron.controller;
 import net.qicp.aaron.domain.CompanyBean;
 import net.qicp.aaron.domain.MaterialBean;
 import net.qicp.aaron.service.MaterialService;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * @Author Aaron
@@ -96,8 +94,24 @@ public class MaterialController {
     }
 
     @RequestMapping("/download")
-    public void fileDownload(@RequestParam("id") String fileName,@RequestParam("format") String format, HttpServletResponse response) throws Exception {
-        materialService.fileDownload(fileName, format, response);
+    public void fileDownload(@RequestParam("id") String fileName,@RequestParam("format") String format,
+                             @RequestParam("key") Integer key, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        materialService.fileDownload(fileName, format, key, response);
+    }
+
+    @RequestMapping("/getdownloadcount")
+    public String getDownloadCount(@RequestParam("id") Integer id){
+        return materialService.getDownloadCount(id);
+    }
+
+    @RequestMapping("/getdetails/{id}")
+    public String getDetails(@PathVariable("id") Integer id) throws ServletException, IOException {
+        return materialService.getDetails(id);
+    }
+
+    @RequestMapping("/getrecommend")
+    public String getRecommendMaterial(){
+        return materialService.getRecommendMaterial();
     }
 
 }

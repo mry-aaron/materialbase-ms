@@ -6,11 +6,10 @@ import net.qicp.aaron.component.FileUploadThread;
 import net.qicp.aaron.domain.CompanyBean;
 import net.qicp.aaron.domain.MaterialBean;
 import net.qicp.aaron.mapper.MaterialMapper;
+import net.qicp.aaron.utils.DateUtil;
 import net.qicp.aaron.utils.UUIDUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.processors.JsonValueProcessor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +22,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * @Author Aaron
@@ -155,27 +149,13 @@ public class MaterialService {
         }
         // 绑定返回结果集
         if (materials != null) {
-            // 处理Timestamp日期格式
-            JsonConfig jsonConfig = new JsonConfig();
-            jsonConfig.registerJsonValueProcessor(Timestamp.class, new JsonValueProcessor() {
-                private String format = "yyyy-MM-dd HH:mm:ss";
-                public Object processArrayValue(Object value, JsonConfig config) { return process(value); }
-                public Object processObjectValue(String arg0, Object value, JsonConfig config) { return process(value); }
-                private Object process(Object value) {
-                    //遇到类型为日期的，就自动转换成“yyyy-MM-dd HH:mm:ss”格式的字符串
-                    if (value instanceof Timestamp) {
-                        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.UK);
-                        return sdf.format(((Timestamp) value).getTime());
-                    }
-                    return value == null ? "" : value.toString();
-                }
-            });
+
             // 处理结果
             PageInfo<MaterialBean> pageInfo = new PageInfo<>(materials);
             result.put("code",  0);
             result.put("msg",   "");
             result.put("count", pageInfo.getTotal());
-            result.put("data",  JSONArray.fromObject(materials, jsonConfig));
+            result.put("data",  JSONArray.fromObject(materials, DateUtil.jsonConfig));
         }
         log.debug(JSONObject.fromObject(result).toString()); // 查询结果
 
@@ -233,8 +213,12 @@ public class MaterialService {
     /**
      * 文件下载
      * @param fileName
+     * @param format
+     * @param id
+     * @param response
+     * @throws Exception
      */
-    public void fileDownload(String fileName, String format, HttpServletResponse response) throws Exception {
+    public void fileDownload(String fileName, String format, Integer id, HttpServletResponse response) throws Exception {
 
         // 判断是图片还是视频
         String filePath = host;
@@ -268,6 +252,43 @@ public class MaterialService {
         } finally {
             urlconn.disconnect();
         }
+
+        // 下载记录到数据库(下载次数加1)
+        materialMapper.updateDownloadCount(id);
+    }
+
+    /**
+     * 更新下载次数
+     * @param id
+     * @return
+     */
+    public String getDownloadCount(Integer id){
+        return materialMapper.getDownload(id);
+    }
+
+    /**
+     * 获取素材详情
+     * @param id
+     * @return
+     */
+    public String getDetails(Integer id){
+        // 根据编号获取素材详细
+        MaterialBean details = materialMapper.getDetails(id);
+        // 获取下载次数前十的素材
+        LinkedList<MaterialBean> downloadTop10 = materialMapper.getMaterialDownloadTop10();
+        // 将根据编号查询的素材添加到集合一起返回页面
+        downloadTop10.addFirst(details);
+
+        return JSONArray.fromObject(downloadTop10, DateUtil.jsonConfig).toString();
+    }
+
+    /**
+     * 获取推荐素材（浏览次数前五的素材）
+     * @return
+     */
+    public String getRecommendMaterial(){
+        // type - 1：图片  2：视频
+        return JSONArray.fromObject(materialMapper.getMaterialTop5(1)).toString();
     }
 
 }
