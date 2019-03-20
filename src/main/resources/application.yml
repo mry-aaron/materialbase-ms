@@ -27,7 +27,7 @@ mybatis:
 file:
   heads: images/upload/heads/
   material:
-    host: http://192.168.0.125/
+    host: http://materialbase-ms.com/
     picture: images/upload/materialbase/picture/
     video: images/upload/materialbase/video/
 
