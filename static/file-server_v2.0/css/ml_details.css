@@ -1,0 +1,174 @@
+/* 素材展示样式 */
+        .ml_details {
+            width: 100%;
+            height: 100%;
+            background: #444;
+            border-top: 1rem solid #000000;
+        }
+        .details_box {
+            width: 70%;
+            height: 38rem;
+            float: left;
+        }
+        .details_ul {
+            width: 30%;
+            height: 38rem;
+            position: relative;
+            float: right;
+            background: rgba(4,4,4,.5);
+        }
+        .box_img,.box_list img {
+            width: 100%;
+            height: 100%;
+        }
+        .box_list {
+            list-style: none;
+            width: 16rem;
+            height: 25.5rem;
+            margin: auto;
+            overflow: hidden;
+        }
+        .list_ul {
+            width: 16rem;
+            height: 100rem;
+        }
+        .box_list li {
+            width: 16rem;
+            height: 7.9rem;
+            border: .1rem solid #a3a3a3;
+            float: left;
+            margin-bottom: .8rem;
+            overflow: hidden;
+        }
+        .box_up, .box_down {
+            width: 17rem;
+            height: 1.6rem;
+            margin: .5rem auto;
+        }
+        .box_up {
+            margin-top: 4rem;
+        }
+        .box_up span, .box_down span {
+            float: left;
+            width: 7rem;
+            height: 1rem;
+            border: .1rem solid #fff;
+        }
+        .box_up .box_up_l {
+            border-bottom: 0;
+            border-right: 0;
+        }
+        .box_down .box_down_l {
+            border-top: 0;
+            border-right: 0;
+        }
+        .box_up .box_up_r {
+            border-bottom: 0;
+            border-left: 0;
+        }
+        .box_down .box_down_r {
+            border-top: 0;
+            border-left: 0;
+        }
+        .box_up .box_up_c {
+            float: left;
+            margin: -.6rem .5rem 0 .5rem;
+        }
+        .box_down .box_down_c {
+            float: left;
+            margin: .6rem .5rem 0 .5rem;
+        }
+
+        /* 素材详述样式 */
+        .ml_details_text {
+            width: 100%;
+            clear: both;
+        }
+        .ml_details_text .ml_details_title,.ml_kin .ml_kin_title {
+            width: 100%;
+            height: 5rem;
+            line-height: 6rem;
+            border-bottom: .5rem solid #000000;
+            padding-left: 2rem;
+            font-size: 1.5rem;
+        }
+        .ml_details_title span,.ml_kin .ml_kin_title span{
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .ml_details_text .ml_details_content,.ml_kin_content {
+            width: 100%;
+            background-color: #fff;
+            margin: 1rem auto;
+            border-radius: 1rem;
+        }
+        .ml_details_content div {
+            width: 100%;
+            height: 5rem;
+            line-height: 5rem;
+            font-size: 1.5rem;
+            padding-left: 2rem;
+            overflow: hidden;
+        }
+        .ml_details_content div:last-child p:first-child {
+            float: left;
+        }
+        .ml_details_content div:last-child p:last-child {
+            float: right;
+            margin-right: 2rem;
+        }
+        .ml_details_content .btn_icon {
+            float: left;
+            width: 2rem;
+            height: 2rem;
+            background: url(http://materialbase-ms.com/images/icon/common.png) -1.8rem -8rem no-repeat;
+            margin: 1rem 1rem 0 2rem;
+        }
+        .ml_details_content div:last-child p:last-child a {
+            display: block;
+            width: 15rem;
+            height: 4rem;
+            line-height: 4rem;
+            color: rgb(255, 255, 255);
+            font-size: 1.8rem;
+            background: linear-gradient(to right, rgb(50, 230, 150), rgb(0, 190, 110));
+            border-radius: 0.5rem;
+        }
+
+        /* 同类素材 样式*/
+        .ml_kin_content .ml_kin_list {
+            width: 100%;
+            display: flex;
+        }
+        .ml_kin_list .ml_kin_card {
+            margin: 1.5rem 1rem;
+            width: 25%;
+            height: 25rem;
+            background-color: #fff;
+            box-shadow: 0 4px 6px 0 rgba(0,0,0,0.16);
+            border-radius: .5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .ml_kin_card img {
+            width: 100%;
+            height: 100%;
+        }
+        .ml_kin_card div {
+            width: 100%;
+            height: 25rem;
+            line-height: 25rem;
+            background-color: rgba(4,4,4,.5);
+            position: absolute;
+            top: -25rem;
+            text-align: center;
+            color: #ffffff;
+        }
+        .ml_kin_card:hover div {
+            top: 0;
+            transition: top 1s ease;
+        }
+	.ml_kin_card a {
+	    color: #fff;
+	    font-size: 1.5rem;
+	}

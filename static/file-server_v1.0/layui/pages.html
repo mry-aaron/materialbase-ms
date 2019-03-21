@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/layui.css" >
+</head>
+
+<body>
+<div id="pages"></div>
+</body>
+
+<script type="text/javascript" src="layui.js"></script>
+<script type="text/javascript">
+layui.use(['laypage', 'layer'], function() {
+    var laypage = layui.laypage, layer = layui.layer;
+
+    //完整功能
+    laypage.render({
+        elem: 'pages'
+        , count: 100
+        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+        , jump: function (obj) {
+            console.log(obj)
+        }
+    });
+});
+</script>
+
+
+</html>

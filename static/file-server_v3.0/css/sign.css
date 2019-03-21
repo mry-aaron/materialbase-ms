@@ -1,0 +1,286 @@
+.login_main {
+            width: 30rem;
+            height: 32.5rem;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        /* 标题样式 */
+        .login_main .login_hearder {
+            width: 100%;
+            height: 15%;
+            overflow: hidden;
+        }
+        .login_main .login_content {
+            width: 100%;
+            height: 85%;
+            overflow: hidden;
+        }
+        .sign_hearder,.signup_hearder {
+            width: 50%;
+            height: 100%;
+            line-height: 4rem;
+            float: left;
+            font-size: 2rem;
+            font-family: "宋体";
+            text-align: center;
+            cursor: pointer;
+        }
+        .login_hearder span {
+            display: block;
+            width: 45%;
+            height: 95%;
+            margin: auto;
+	    color: #666666;
+        }
+        .login_hearder span:hover {
+            color: #10c55b;
+            border-bottom: solid .5rem #10c55b;
+        }
+        .tabstyle {
+            color: #10c55b;
+            border-bottom: solid .5rem #10c55b;
+        }
+        /* 内容样式 */
+        .sign_content,.signup_content{
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .login_code {
+            display: none;
+        }
+        .login_code,.login_phone {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+        }
+        .login_code div,.login_phone div,.phone_reg div,.code_reg div,.agree {
+            width: 26rem;
+            height: 3.5rem;
+            margin: 1rem auto;
+            overflow: hidden;
+        }
+        .login_code div:nth-child(1),.login_phone div:nth-child(1) {
+            margin-top: 3rem;
+            position: relative;
+        }
+        .login_code input {
+            width: 21.8rem;
+            height: 3.4rem;
+            padding-left: 4rem;
+            border: 1px solid #DBDBDB;
+            border-radius: .5rem;
+        }
+        .login_btn,.regi_btn {
+            width: 26rem;
+            height: 3.5rem;
+            line-height: 3.5rem;
+            display: block;
+            background: linear-gradient(to right,#32e696,#00be6e);
+            border-radius: .5rem;
+            color: #ffffff;
+            font-family: "宋体";
+            font-size: 1.8rem;
+        }
+        .login_btn:hover,.regi_btn:hover {
+	    color: #ffffff;
+            opacity: .9;
+        }
+        .tab_phone {
+            float: left;
+            font-size: 1.5rem;
+        }
+        .edit_pwd {
+            float: right;
+            font-size: 1.5rem;
+        }
+        /* 用户和密码图标样式 */
+        .parent_icon {
+            position: relative;
+        }
+        .user_icon,.pwd_icon {
+            position: absolute;
+            top: .8rem;
+            left: .8rem;
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url(http://materialbase-ms.com/images/icon/common_login.png) no-repeat;
+        }
+        .user_icon {
+            background-position: -6.3rem -13.8rem;
+        }
+        .pwd_icon {
+            background-position: -9.7rem -13.8rem;
+        }
+        /* 其他登录方式样式 */
+        .other_login a {
+            float: left;
+            width: 3.6rem;
+            height: 3.1rem;
+            background: url(http://materialbase-ms.com/images/icon/common_login.png) no-repeat;
+            background-size: 11rem 8rem;
+            background-position-y: -3rem;
+            margin: 0 .5rem;
+        }
+        .other_login a:nth-child(2) {
+            background-position-x: -7.4rem;
+        }
+        .other_login a:nth-child(3) {
+            background-position-x: -3.7rem;
+        }
+
+        /* 手机验证码登录样式 */
+        .login_phone input,.signup_content .phone_reg input {
+            width: 14.5rem;
+            height: 3.4rem;
+            border: 1px solid #DBDBDB;
+            border-radius: .5rem;
+        }
+        .login_phone input[class='cell_phone_number_icon'],.signup_content input[class='cell_phone_number_icon']{
+            padding-left: 3rem;
+        }
+        .login_phone select,.signup_content select {
+            height: 3.4rem;
+            width: 8rem;
+            border: 1px solid #ccc;
+            border-radius: .5rem;
+            margin-right: -.3rem;
+            padding-left: .5rem;
+            color: #666;
+            font-size: 1.2rem;
+            position: relative;
+        }
+        i[class='cell_phone_number_icon'] {
+            position: absolute;
+            top: .9rem;
+            left: 9rem;
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url(http://materialbase-ms.com/images/icon/common_login.png) -11.5rem -14rem no-repeat;
+        }
+        .vli_code {
+            float: left;
+            padding-left: 1rem;
+        }
+        .send_code {
+            width: 9rem;
+            border: .1rem solid #10c55b;
+            height: 3.3rem;
+            float: right;
+            border-radius: .5rem;
+            line-height: 3.3rem;
+            background-color: #edfff4;
+            color: #10c55b;
+            font-size: 1.2rem;
+        }
+        /* 注册样式 */
+        .signup_content {
+            text-align: center;
+        }
+        .signup_content .other_sign{
+            margin: 2rem;
+            height: 4rem;
+            border-bottom: .1rem solid #CCc;
+        }
+        .signup_content .phone_reg .cell_phone_number{
+            position: relative;
+        }
+        .signup_content .other_sign a {
+            display: inline-flex;
+            width: 8rem;
+            height: 3rem;
+            line-height: 3rem;
+            text-align: center;
+            border-radius: .5rem;
+            color: #ffffff;
+        }
+        .signup_content .other_sign i {
+            width: 2.3rem;
+            height: 2rem;
+            background: url("http://materialbase-ms.com/images/icon/common_login.png") no-repeat;
+            background-position-y: -3.5rem;
+            background-size: 11rem 8rem;
+            margin: .4rem;
+        }
+        .signup_content .other_sign .qq i {
+            background-position-x: -.7rem;
+        }
+        .signup_content .other_sign .wx i {
+            background-position-x: -8.1rem;
+        }
+        .signup_content .other_sign .wb i {
+            background-position-x: -4.4rem;
+        }
+        .signup_content .other_sign .qq {
+            background-color: #19a9f1;
+        }
+        .signup_content .other_sign .wx {
+            background-color: #0b0;
+        }
+        .signup_content .other_sign .wb {
+            background-color: #ed2b2f;
+        }
+        .signup_content .agree i {
+            float: left;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: url("http://materialbase-ms.com/images/icon/common_login.png") .1rem -15.8rem no-repeat;
+        }
+        .signup_content .agree span {
+            float: left;
+            margin: .3rem 0 0 .5rem;
+        }
+        .signup_content .code_reg {
+            display: none;
+        }
+        .signup_content .tab_reg {
+            height: 2rem;
+            line-height: 2rem;
+            text-align: left;
+            width: 26rem;
+            margin: 1rem auto;
+            overflow: hidden;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .signup_content .code_reg input {
+            width: 21.8rem;
+            height: 3.4rem;
+            border: 1px solid #DBDBDB;
+            border-radius: .5rem;
+            padding-left: 4rem;
+        }
+	.cell_phone_number_icon {
+	    padding-left: 3rem;	
+	}
+
+	.error_msg {
+	    width: 26rem;
+            height: .5rem;
+            text-align: left;
+            margin: auto;
+            position: absolute;
+        }
+        .error_msg i {
+            width: 1.3rem;
+            height: 1.3rem;
+            background: url(http://materialbase-ms.com/images/icon/common_login.png) -2.8rem -16.1rem no-repeat;
+            float: left;
+        }
+	.signup_err,.sign_err .sign_err_i {
+	    display: none;
+	}
+        .error_msg span {
+            color: #666;
+            margin: 0 0 0 .5rem;
+        }
+        .sign_err {
+            top: 1rem;
+            left: 2rem;
+        }
+        .signup_err {
+            top: 4.5rem;
+            left: 2rem;
+        }

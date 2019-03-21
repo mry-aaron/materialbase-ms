@@ -1,0 +1,27 @@
+        .layui-form-label {
+            width: 9rem;
+        }
+        /* 上传头像样式 */
+        .set_head {
+            position: relative;
+        }
+        .img_btn {
+            width: 10rem;
+            height: 4rem;
+            line-height: 2.5rem;
+            background: lightseagreen;
+            border-radius: 2rem;
+            color: #fff;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .upload_img {
+            width: 8rem;
+            height: 8rem;
+            float: left;
+            margin: 1rem 4rem 1rem 9.2rem;
+        }
+        .layui-form-label i{
+            color: #ff0000;
+        }

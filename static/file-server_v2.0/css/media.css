@@ -1,0 +1,24 @@
+    
+# @media screen and (max-width: 990px) {
+#    .sidebar {
+#	position: absolute;
+#	left: 20rem;
+#	top: 3.8rem;
+#	height: 32.8rem;
+#    }
+# }
+
+
+.show_menu {
+    position: absolute;
+    left: 20rem;
+    top: 3.8rem;
+    overflow: hidden;
+}
+.navbar{
+    z-index: 100;
+}
+.sidebar .sidebar-nav{
+    overflow: hidden;
+}
+
