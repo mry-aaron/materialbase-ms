@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MBMS_TestDoc</title>
+    <style type="text/css">
+        body{ margin: auto; }
+        .box{
+            width: 80%;
+            margin: auto;
+            text-align: left;
+            border-left: .5rem solid #000000;
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="row">
+        <h2>测：响应式加载</h2>
+        <div class="text">
+            <dl>
+                <dt>1. PC端</dt>
+                <dd> ~ 全屏加载展示右侧菜单和顶部导航栏</dd>
+                <dd> ~ 调整屏幕时宽度到达一定程度时隐藏右侧菜单栏，左上角logo绑定单击事件，点击显示隐藏菜单栏</dd>
+                <dd> ~ 调整为菜单栏显示宽度，事件取消</dd>
+                <dd> ~ 小屏加载自动绑定单击事件，并隐藏菜单栏</dd>
+            </dl>
+            <dl>
+                <dt>2. 移动端</dt>
+                <dd> ~ 默认隐藏菜单栏，logo绑定单击事件</dd>
+            </dl>
+        </div>
+        <div class="video">
+            <video src="video/01.ogg" width="300" height="150" controls />
+        </div>
+    </div>
+    <div class="row">
+        <h2>测：登录/注册</h2>
+        <div class="text">
+            <dl>
+                <dt>1. 手机注册</dt>
+                <dd> ~ 测1：注册分账号注册和手机号注册，点击其他注册时弹出提示框（“请使用账号或手机号注册”）</dd>
+                <dd> ~ 测2：输入手机号验证手机号是否注册（光标离开文本框即验证）</dd>
+                <dd> ~ 测3：输入手机号点击“发送验证码”，手机接收验证码，发送按钮禁用显示倒计时</dd>
+                <dd> ~ 测4：输入验证码点击“注册”，成功则跳转登录，失败则给出提示</dd>
+            </dl>
+            <dl>
+                <dt>2. 账号注册</dt>
+                <dd> ~ 测1：光标离开时验证用户是否注册</dd>
+                <dd> ~ 测2：输入用户名密码点击“注册”</dd>
+            </dl>
+            <dl>
+                <dt>3. 访问权限</dt>
+                <dd> ~ 测：未登录状态访问其他页面或其他操作时（排除注册/登录）弹出登录页面提示登录</dd>
+                <dd> ~ 移动端通过该方法打开登录界面</dd>
+            </dl>
+            <dl><dt>登录同注册操作类似！</dt></dl>
+        </div>
+        <div class="video">
+            <video src="video/02.ogg" width="300" height="150" controls />
+        </div>
+    </div>
+    <div class="row">
+        <h2>测：用户管理（个人中心）</h2>
+        <div class="text">
+            <dl>
+                <dt>1. 访问个人中心方式点击头像，点击菜单栏用户管理</dt>
+                <dt>2. 编辑个人信息</dt>
+                <dd> ~ 测1：手机号注册用户需要编辑用户名/密码，账号登录用户不需要</dd>
+                <dd> ~ 测2：提交用户编辑</dd>
+            </dl>
+        </div>
+        <div class="video">
+            <video src="video/03.ogg" width="300" height="150" controls />
+        </div>
+    </div>
+    <div class="row">
+        <h2>测：素材库</h2>
+        <div class="text">
+            <dl>
+                <dt>1. 素材录入</dt>
+                <dd> ~ 测1：文件上传大小限制</dd>
+                <dd> ~ 测2：保存录入到数据库</dd>
+                <dt>2. 素材搜索</dt>
+                <dd> ~ 测1：根据条件搜索分页展示</dd>
+                <dd> ~ 测2：对素材编辑/删除</dd>
+            </dl>
+        </div>
+        <div class="video">
+            <video src="video/04.ogg" width="300" height="150" controls />
+        </div>
+    </div>
+    <div class="row">
+        <h2>测：首页</h2>
+        <div class="text">
+            <dl>
+                <dt>1. 首页素材展示</dt>
+                <dd> ~ 测1: 点赞次数前五的素材在首页轮播</dd>
+                <dd> ~ 测2：分页展示所有素材</dd>
+                <dt>2. 素材点赞/下载</dt>
+                <dd> ~ 测1：点赞需要用户登录操作，记录用户点过赞的素材</dd>
+                <dd> ~ 测2：点赞与取消点赞实时跟新点赞次数</dd>
+                <dd> ~ 测3：下载实时更新下载次数并执行下载文件</dd>
+                <dt>3. 素材详情</dt>
+                <dd> ~ 测1：点击素材跳转素材详情页</dd>
+                <dd> ~ 测2：展示当前素材详情及下载次数前十的素材</dd>
+                <dd> ~ 测3：加载推荐素材，点击覆盖层文字查看素材详情</dd>
+                <dd> ~ 测4：下载按钮点击下载</dd>
+            </dl>
+        </div>
+        <div class="video">
+            <video src="video/05.ogg" width="300" height="150" controls />
+        </div>
+    </div>
+</div>
+</body>
+</html>
