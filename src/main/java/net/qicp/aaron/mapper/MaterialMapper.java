@@ -118,4 +118,23 @@ public interface MaterialMapper {
      */
     LinkedList<MaterialBean> getMaterialDownloadTop10();
 
+    /**
+     * 点赞次数递减
+     * @param id
+     */
+    void cancelPoints(Integer id);
+
+    /**
+     * 点赞次数递增
+     * @param id
+     */
+    void recordPoints(Integer id);
+
+    /**
+     * 获取总点赞次数
+     * @param id
+     * @return
+     */
+    Integer getTotalPoints(Integer id);
+
 }

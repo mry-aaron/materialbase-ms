@@ -47,6 +47,9 @@ public class MaterialBean {
     private Integer page  = 1;   // 页数
     private Integer limit = 10;  // 行数
 
+    /* 记录素材是否点赞 */
+    private Integer points;
+
     /**
      * 构造器
      */
@@ -257,5 +260,12 @@ public class MaterialBean {
     }
     public void setLimit(Integer limit) {
         this.limit = limit;
+    }
+    /* 记录素材是否点赞 */
+    public Integer getPoints() {
+        return points;
+    }
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 }

@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @RequestMapping("/reg")
     public void regUser(UserBean userBean) {
@@ -68,6 +71,9 @@ public class UserController {
             // 保存用户名
             HttpSession session = request.getSession();
             session.setAttribute("userName", userBean.getName());
+            session.setAttribute("userId", userBean.getId());
+            // redis中创建hash（用于保存点赞信息）
+            redisTemplate.opsForHash().put(userBean.getId(), 0, 0);
             // 清空错误信息
             session.setAttribute("sign_msg", null);
         } else {
@@ -87,8 +93,11 @@ public class UserController {
             // 保存用户名
             HttpSession session = request.getSession();
             session.setAttribute("telephone", userBean.getTelephone());
+            session.setAttribute("userId", userBean.getId());
             // 清空错误信息
             session.setAttribute("sign_msg", null);
+            // redis中创建hash（用于保存点赞信息）
+            redisTemplate.opsForHash().put(userBean.getId(), 0, 0);
         } else {
             object.put("code", 0);
         }

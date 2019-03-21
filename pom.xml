@@ -45,7 +45,6 @@
             <scope>runtime</scope>
         </dependency>
         <!-- 数据源场景 ===============End=================== -->
-
         <!-- mybatis 场景 -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -58,11 +57,20 @@
             <artifactId>pagehelper</artifactId>
             <version>5.1.2</version>
         </dependency>
-
         <!-- 引入thymeleaf 场景 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!--开启 cache 缓存-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <!-- 使用redis作为缓存数据区域 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <!-- 引入JSON依赖 ===================== Begin ====================== -->

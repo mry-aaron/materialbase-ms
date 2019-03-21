@@ -15,10 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.net.HttpURLConnection;
@@ -46,11 +49,14 @@ public class MaterialService {
     private MaterialMapper materialMapper;
     @Autowired
     private FileUploadThread fileUploadThread;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 获取全部公司
      * @return json
      */
+    @Cacheable(cacheNames = {"redis_cache"}, key ="method.name")
     public String getCompany(){
         return JSONArray.fromObject(materialMapper.getCompany()).toString();
     }
@@ -59,6 +65,7 @@ public class MaterialService {
      * 获取全部素材风格
      * @return json
      */
+    @Cacheable(cacheNames = {"redis_cache"}, key ="method.name")
     public String getStyle(){
         return JSONArray.fromObject(materialMapper.getStyle()).toString();
     }
@@ -67,6 +74,7 @@ public class MaterialService {
      * 获取全部素材类型
      * @return json
      */
+    @Cacheable(cacheNames = {"redis_cache"}, key ="method.name")
     public String getType(){
         return JSONArray.fromObject(materialMapper.getType()).toString();
     }
@@ -75,6 +83,7 @@ public class MaterialService {
      * 获取全部媒体
      * @return json
      */
+    @Cacheable(cacheNames = {"redis_cache"}, key ="method.name")
     public String getMedia(){
         return JSONArray.fromObject(materialMapper.getMedia()).toString();
     }
@@ -184,6 +193,7 @@ public class MaterialService {
      * 首页图片轮播（点赞量排名前5的素材）
      * @return
      */
+    @Cacheable(cacheNames = {"redis_cache"}, key ="method.name")
     public String homeBannerData(){
         // type - 1：图片  2：视频
         return JSONArray.fromObject(materialMapper.getMaterialTop5(1)).toString();
@@ -193,13 +203,23 @@ public class MaterialService {
      * 获取全部素材
       * @return
      */
-    public String getAllSM(MaterialBean materialBean){
+    public String getAllSM(MaterialBean materialBean, HttpServletRequest request){
         HashMap<String, Object> result = null;
         PageHelper.startPage(materialBean.getPage(), materialBean.getLimit());
         // type - 1：图片  2：视频
         materialBean.setSmTypeId(1);
         List<MaterialBean> lists = materialMapper.getAllSM(materialBean);
         if(lists != null && lists.size() > 0){
+            // 给points赋值（获取redis中的值）
+            Object userId = request.getSession().getAttribute("userId");
+            if(userId != null){
+                for (int i = 0; i < lists.size(); i++) {
+                    if(redisTemplate.opsForHash().hasKey(userId, lists.get(i).getId()))
+                        lists.get(i).setPoints(Integer.valueOf(redisTemplate.opsForHash().get(userId, lists.get(i).getId()).toString()));
+                    else lists.get(i).setPoints(0); //若redis中不存在，则未点赞
+                }
+            }
+            // 处理结果
             result = new HashMap<>();
             PageInfo<MaterialBean> pageInfo = new PageInfo<>(lists);
             result.put("code", 0);
@@ -286,9 +306,24 @@ public class MaterialService {
      * 获取推荐素材（浏览次数前五的素材）
      * @return
      */
+    @Cacheable(cacheNames = {"redis_cache"}, key ="method.name")
     public String getRecommendMaterial(){
         // type - 1：图片  2：视频
         return JSONArray.fromObject(materialMapper.getMaterialTop5(1)).toString();
+    }
+
+    /**
+     * 点赞操作
+     * @param id
+     * @return
+     */
+    public String recordPoints(Integer id, Integer no, HttpServletRequest request){
+        // 以用户ID为hash，素材id为hashkey，是否点赞为hashvalue（0：未赞，1：赞）
+        redisTemplate.opsForHash().put(request.getSession().getAttribute("userId"), id, no);
+        if(no == 0) materialMapper.cancelPoints(id); //取消点赞（点赞次数减一）
+        else if(no == 1) materialMapper.recordPoints(id); //点赞（点赞次数加一）
+        // 返回总点赞数
+        return String.valueOf(materialMapper.getTotalPoints(id));
     }
 
 }

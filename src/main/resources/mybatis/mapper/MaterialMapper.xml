@@ -283,4 +283,19 @@
         limit 10
     </select>
 
+    <!-- 点赞次数递减 -->
+    <update id="cancelPoints" parameterType="java.lang.Integer">
+        update mbms_material set `like`=`like`-1 where id=#{_parameter}
+    </update>
+
+    <!-- 点赞次数递增 -->
+    <update id="recordPoints" parameterType="java.lang.Integer">
+        update mbms_material set `like`=`like`+1 where id=#{_parameter}
+    </update>
+
+    <!-- 获取点赞次数 -->
+    <select id="getTotalPoints" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+         select `like` from mbms_material where id=#{_parameter}
+    </select>
+
 </mapper>

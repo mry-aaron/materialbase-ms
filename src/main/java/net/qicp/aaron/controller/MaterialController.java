@@ -89,8 +89,8 @@ public class MaterialController {
     }
 
     @RequestMapping("/getallpicsm")
-    public String getAllPicSM(MaterialBean materialBean){
-        return materialService.getAllSM(materialBean);
+    public String getAllPicSM(MaterialBean materialBean, HttpServletRequest request){
+        return materialService.getAllSM(materialBean, request);
     }
 
     @RequestMapping("/download")
@@ -112,6 +112,11 @@ public class MaterialController {
     @RequestMapping("/getrecommend")
     public String getRecommendMaterial(){
         return materialService.getRecommendMaterial();
+    }
+
+    @RequestMapping("/points")
+    public String pointsOps(@RequestParam("id") Integer id, @RequestParam("no") Integer no, HttpServletRequest request){
+        return materialService.recordPoints(id, no, request);
     }
 
 }

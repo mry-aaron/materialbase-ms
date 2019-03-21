@@ -6,21 +6,15 @@
 
     <!-- 查询用户是否存在 -->
     <select id="findByUser" parameterType="UserBean" resultType="java.lang.Integer">
-        select
-        <if test="name != null">
-            count(name)
-        </if>
-        <if test="telephone != null">
-            count(telephone)
-        </if>
-        from user_info
-        where
-        <if test="name != null">
-            name = #{name}
-        </if>
-        <if test="telephone != null">
-            telephone = #{telephone}
-        </if>
+        select id from user_info
+        <where>
+            <if test="name != null">
+                name = #{name}
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone}
+            </if>
+        </where>
     </select>
 
     <!-- 注册 -->

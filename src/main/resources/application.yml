@@ -14,9 +14,27 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 1000MB
-  ## 配置thymeleaf缓存
+  ## 关闭thymeleaf缓存（开发热部署应用）
   thymeleaf:
     cache: false
+  ## 配置工程缓存
+  cache:
+    type: REDIS
+    cache-names: redis_cache
+    redis:
+      time-to-live: 60000  #缓存的有效时间（单位为毫秒）
+  ## 配置redis
+  redis:
+    host: 192.168.0.109
+    port: 6379
+    password: 123456
+    database: 0
+    jedis:
+      pool:
+        max-idle: 60
+        min-idle: 30
+        max-wait: 60000
+        max-active: 200
 
 ## 配置 MyBatisy
 mybatis:
