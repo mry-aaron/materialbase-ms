@@ -7,7 +7,7 @@ spring:
     ## 数据源基本配置
     username: proxy
     password: 123456
-    url: jdbc:mysql://192.168.0.109:4000/mbms?serverTimezone=GMT
+    url: jdbc:mysql://192.168.0.109:4000/mbms?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
     driver-class-name: com.mysql.cj.jdbc.Driver
   ## 配置SpringBoot上传文件的大小
   servlet:

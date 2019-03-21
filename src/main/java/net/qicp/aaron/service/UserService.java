@@ -62,7 +62,8 @@ public class UserService {
      * @return
      */
     public boolean findUser(UserBean userBean) {
-        return userMapper.findByUser(userBean) > 0 ? true : false;
+        Integer id = userMapper.findByUser(userBean);
+        return id != null && id > 0  ? true : false;
     }
 
     /**
