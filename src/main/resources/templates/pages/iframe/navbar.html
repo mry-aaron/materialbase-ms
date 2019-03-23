@@ -5,17 +5,17 @@
     <title>Navbar</title>
 
     <!-- 引入CSS样式表 -->
-    <link rel="stylesheet" href="http://materialbase-ms.com/css/reset.css">
-    <link rel="stylesheet" href="http://materialbase-ms.com/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://materialbase-ms.com/css/styles.css">
-    <link rel="stylesheet" href="http://materialbase-ms.com/css/media.css">
+    <link rel="stylesheet" href="http://23u3i55086.51mypc.cn/css/reset.css">
+    <link rel="stylesheet" href="http://23u3i55086.51mypc.cn/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://23u3i55086.51mypc.cn/css/styles.css">
+    <link rel="stylesheet" href="http://23u3i55086.51mypc.cn/css/media.css">
 
 </head>
 <body>
 <!-- 顶部导航栏 -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="topNav">
     <div class="show_nav" style="background-color: white; border-radius:50%; margin-right: 10px;">
-        <img id="show_menu" src="http://materialbase-ms.com/images/icon/logo.png" alt="" width="35px" height="35px">
+        <img id="show_menu" src="http://23u3i55086.51mypc.cn/images/icon/logo.png" alt="" width="35px" height="35px">
     </div>
     <a class="navbar-brand" href="#">HetaolinMedia</a>
     <div class="collapse navbar-collapse justify-content-end">
@@ -31,7 +31,7 @@
                 <a class="nav-link" th:text="${session.telephone}" th:if="${#strings.isEmpty(session.userName)}"></a>
             </li>
             <li class="nav-item">
-                <a href="/umanager.html"><img src="http://materialbase-ms.com/images/heads/hetaolinmedia.png" th:src="${session.headImg}" th:if="not ${#strings.isEmpty(session.headImg)}" width="35px" height="35px" style="border-radius:50%"></a>
+                <a href="/umanager.html"><img src="http://23u3i55086.51mypc.cn/images/heads/hetaolinmedia.png" th:src="${session.headImg}" th:if="not ${#strings.isEmpty(session.headImg)}" width="35px" height="35px" style="border-radius:50%"></a>
             </li>
         </ul>
     </div>

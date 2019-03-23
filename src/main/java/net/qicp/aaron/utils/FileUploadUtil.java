@@ -19,7 +19,7 @@ import java.util.Properties;
 public class FileUploadUtil {
     private static Logger log = LoggerFactory.getLogger(FileUploadUtil.class);
 
-    private static String   host        = "materialbase-ms.com";      // 服务器IP
+    private static String   host        = "23u3i55086.51mypc.cn";      // 服务器IP
     private static Integer  port        = 22;                   // 服务器端口
     private static String   username    = "root";               // 用户名
     private static String   password    = "root123";            // 密码

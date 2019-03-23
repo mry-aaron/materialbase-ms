@@ -45,7 +45,7 @@ mybatis:
 file:
   heads: images/upload/heads/
   material:
-    host: http://materialbase-ms.com/
+    host: http://23u3i55086.51mypc.cn/
     picture: images/upload/materialbase/picture/
     video: images/upload/materialbase/video/
 
