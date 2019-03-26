@@ -133,7 +133,9 @@ public class UserService {
         userBean.setTelephone(object.getString("telephone"));
         // 能查询到手机号并且验证码正确即登录成功
         Integer id = userMapper.findByUser(userBean);
-        if(code.equals(request.getSession().getAttribute("code").toString()) && id > 0){
+        Object code1 = request.getSession().getAttribute("code");
+        if(code1 == null) return null;
+        if(code.equals(code1.toString()) && id > 0){
             userBean.setId(id);
             // 更新登录时间
             userBean.setLastLoginTime(new Timestamp(new Date().getTime()));

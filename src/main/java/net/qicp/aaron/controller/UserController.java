@@ -57,7 +57,12 @@ public class UserController {
 
     @RequestMapping("/verifi")
     public String verification(@RequestParam("code") String code, HttpServletRequest request) {
-        return code.equals(request.getSession().getAttribute("code").toString()) ? "1" : "0";
+        String result = "0";
+        Object code1 = request.getSession().getAttribute("code");
+        if(code1 != null){
+            result = code.equals(code1.toString()) ? "1" : "0";
+        }
+        return result;
     }
 
     @RequestMapping("/login")
